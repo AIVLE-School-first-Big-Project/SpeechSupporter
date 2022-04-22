@@ -117,7 +117,6 @@ class UserView(APIView):
         loggedin = False
         token = request.headers.get('Authorization')
         # token = request.COOKIE.get('jwt')
-        # token = request.header.
         # token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJkbmpzd28xMjM0QG5hdmVyLmNvbSIsImV4cCI6MTY1MDQ3MjQ3NSwiZW1haWwiOiJkbmpzd28xMjM0QG5hdmVyLmNvbSIsIm9yaWdfaWF0IjoxNjUwNDY4ODc1fQ.v90ueJHFDDwxq2ypo3hVV5Q2I1mvfp2bjJrQDSqAxT8'
         # token = token.split('jwt')[1].lstrip()
         print(token)
@@ -128,8 +127,10 @@ class UserView(APIView):
             payload = JWT_DECODE_HANDLER(token)
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed('Unauthenticated!')
-
-        user = User.objects.filter(email = payload['email']).first()
+        except jwt.DecodeError:
+            raise AuthenticationFailed('Unauthenticated!')
+    
+        user = User.objects.filter(email = payload['user_email']).first()
         serializer = UserSerializer(user)
         
         if user.is_authenticated:
@@ -183,6 +184,7 @@ class UpdatePartialUserView(RetrieveUpdateAPIView):
         self.object.save()
 
         return Response(status=status.HTTP_202_ACCEPTED, data={"message": "success!"})
+
 
 #UpdatePartialUserView 구현으로인해 단독으로 사용하지 않음. 
 @permission_classes([IsAuthenticated])

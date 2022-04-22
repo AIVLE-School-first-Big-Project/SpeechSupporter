@@ -1,5 +1,4 @@
 from collections import OrderedDict
-from os import stat
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 
@@ -190,3 +189,20 @@ class PostListAPIView(ListAPIView):
 
     filter_class = PostFilter
 
+class MyPostListAPIView(ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostListSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        print(request.user)
+        try:
+            obj = queryset.filter(user_id=self.request.user.id)
+        except:
+            return Response(status=status.HTTP_409_CONFLICT, data={'message': '데이터가 존재하지 않습니다.'})
+
+        serializer = self.get_serializer(obj, many = True)
+        if len(serializer.data) < 1:
+            return Response(data={'message':'아직 작성한 글이 없습니다.'})
+
+        return Response(serializer.data)

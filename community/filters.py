@@ -1,4 +1,5 @@
 from dataclasses import field
+from random import choices
 from django_filters import (
     FilterSet,
     CharFilter,
@@ -11,12 +12,12 @@ class PostFilter(FilterSet):
     count = NumberFilter()
 
     #Specific
-    user = CharFilter(field_name='user', lookup_expr="exact")
+    user = CharFilter(field_name='user', lookup_expr="exact", label='user.nick_name')
     title = CharFilter(field_name='title', lookup_expr="icontains")
-    category = CharFilter(field_name='category', lookup_expr="iexact")
+    category = CharFilter(field_name='category', lookup_expr="exact")
     count__gt = NumberFilter(field_name='like', lookup_expr='gt')
     count__lt = NumberFilter(field_name='like', lookup_expr='lt')
-    message = CharFilter(field_name = 'content', lookup_expr="icontains")
+    message = CharFilter(field_name = 'content',lookup_expr="icontains")
 
     #Ordering
     order_by_field = 'ordering'
