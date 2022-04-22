@@ -69,9 +69,10 @@ class UserLoginSerializer(serializers.Serializer):
     #     return instance
 
 class UserSerializer(serializers.ModelSerializer):
+    profile_img = serializers.ImageField(use_url=True, required = False)
     class Meta:
         model = User
-        fields = ['email', 'nick_name', 'wannabe', ]#'profile_img'
+        fields = ['email', 'nick_name', 'wannabe', 'profile_img']
 
 class UserProfileSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)

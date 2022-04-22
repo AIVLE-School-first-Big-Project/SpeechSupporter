@@ -1,4 +1,3 @@
-from asyncio import constants
 from django.contrib.auth import get_user_model
 
 from rest_framework.views import APIView
@@ -117,6 +116,7 @@ class UserView(APIView):
     def get(self, request):
         loggedin = False
         token = request.headers.get('Authorization')
+        # token = request.COOKIE.get('jwt')
         # token = request.header.
         # token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJkbmpzd28xMjM0QG5hdmVyLmNvbSIsImV4cCI6MTY1MDQ3MjQ3NSwiZW1haWwiOiJkbmpzd28xMjM0QG5hdmVyLmNvbSIsIm9yaWdfaWF0IjoxNjUwNDY4ODc1fQ.v90ueJHFDDwxq2ypo3hVV5Q2I1mvfp2bjJrQDSqAxT8'
         # token = token.split('jwt')[1].lstrip()
@@ -129,7 +129,7 @@ class UserView(APIView):
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed('Unauthenticated!')
 
-        user = User.objects.filter(email = payload['user_email']).first()
+        user = User.objects.filter(email = payload['email']).first()
         serializer = UserSerializer(user)
         
         if user.is_authenticated:

@@ -127,7 +127,7 @@ class PostRetreiveAPIView(RetrieveAPIView):
 
 
 # class PostLikeAPIView(UpdateAPIView):
-permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 class PostLikeAPIView(GenericAPIView):
     queryset = Post.objects.all()
     #GET으로 처리함으로써 serializer는 삭제해도 됨.
