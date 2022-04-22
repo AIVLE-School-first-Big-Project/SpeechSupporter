@@ -3,6 +3,7 @@ import Aivle from "./Aivle";
 import MainPage from "./MainPage";
 import Register from "./Register";
 import Community from "./Community";
+import Write from "./Write";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/video" element={<Aivle />} />
         <Route path="/register" element={<Register />} />
         <Route path="/community" element={<Community />} />
+        <Route path="/write" element={<Write />} />
       </Routes>
     </Router>
   );
