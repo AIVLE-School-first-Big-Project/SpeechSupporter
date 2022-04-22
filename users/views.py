@@ -24,6 +24,10 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from users.utils import Util
 
+from rest_framework.decorators import parser_classes
+from rest_framework.parsers import MultiPartParser
+
+
 # class RegisterView(APIView):
 #     def post(self, request):
 #         seriallizer = UserRegisterSerializer(data=request.data)
@@ -34,6 +38,7 @@ from users.utils import Util
 #         return Response(status= status.HTTP_400_BAD_REQUEST, data={'errors': seriallizer.errors})
 
 @permission_classes([AllowAny])
+@parser_classes([MultiPartParser])
 class RegisterView(GenericAPIView):
     """
     회원가입을 수행합니다.
@@ -68,6 +73,7 @@ class LoginView(GenericAPIView):
         
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
+        
         #if user['email'] == "None":
          #   return Response( data={'message':"fail(email)", "id" : 20})
         
@@ -115,6 +121,7 @@ class UserView(APIView):
     """
     def get(self, request):
         loggedin = False
+        
         token = request.headers.get('Authorization')
         # token = request.COOKIE.get('jwt')
         # token = request.header.

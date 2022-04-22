@@ -9,14 +9,14 @@ const Register = () => {
     const [idValue, setIdValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     const [password2Value, setPassword2Value] = useState('');
-    const [chkPassword, setChkPassword] = useState(false);
+    const [imgForm, setImageForm] = useState([]);
     const [nickNameValue, setnickNameValue] = useState('');
     const [companyValue, setCompanyValue] = useState('');
     const [imgFile, setImageFile] = useState(
         'https://images-ext-2.discordapp.net/external/RwTCihXk-8XznIG1dqikm3s5sffzfnXvWAKVvWhZsH4/https/cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png?width=936&height=936'
     );
 
-    const formData = new FormData();
+    let formData = new FormData();
     const navigation = useNavigate();
 
     const handleJoininBtn = (event) => {
@@ -41,18 +41,28 @@ const Register = () => {
             password: passwordValue,
             email: idValue,
             wannabe: companyValue,
-            profile_img: imgFile,
         };
-        const joinState = await axios.post(BASE_URL, loginData);
+
+        formData.append('nick_name', nickNameValue);
+        formData.append('password', passwordValue);
+        formData.append('email', idValue);
+        formData.append('wannabe', companyValue);
+        formData.append('profile_img', imgForm);
+
+        const joinState = await axios.post(BASE_URL, formData, {
+            headers: {
+                'content-type': 'multipart/form-data',
+            },
+        });
         if (joinState.data.state) {
-            navigation('/login');
+            //navigation('/login');
         }
     };
 
     const getImageFile = (event) => {
         const file = event.target.files;
         setImageFile(file[0].name);
-        formData.append('profile_img', imgFile);
+        setImageForm(file[0]);
     };
 
     const passwordValueChk = (event) => {
