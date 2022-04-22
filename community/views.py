@@ -2,6 +2,8 @@ from collections import OrderedDict
 from os import stat
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+
+from community.filters import PostFilter
 from .serializers import *
 from .models import *
 from users.models import *
@@ -185,4 +187,6 @@ class PostListAPIView(ListAPIView):
     queryset = Post.objects.all().order_by("create_dt").reverse()
     serializer_class = PostListSerializer
     pagination_class = PostPageNumberPagination
+
+    filter_class = PostFilter
 
