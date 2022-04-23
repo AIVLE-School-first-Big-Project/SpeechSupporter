@@ -10,16 +10,9 @@ const Aivle = () => {
     const cookies = new Cookies();
 
     const nav = useNavigate();
-    const location = useLocation();
 
     const setCookie = (name, value) => {
         return cookies.set(name, value);
-    };
-
-    const userChk = () => {
-        if (!location.state) {
-            nav('/login');
-        }
     };
 
     const [keypoints, setKeypoints] = useState([]);
@@ -61,12 +54,9 @@ const Aivle = () => {
         drawSkeleton(pose['keypoints'], 0.7, ctx);
     };
 
-    useEffect(() => {
-        userChk();
-    }, []);
     return (
         <div className='container'>
-            <img className={styles.logo} src='aivle.png' />
+            <img className={styles.logo} src='../aivle.png' />
             <div className={styles.aivle__container}>
                 <div className={styles.total__container}>
                     <div className={styles.button__container}>

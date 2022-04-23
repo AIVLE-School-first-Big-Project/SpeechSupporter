@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import styles from './MainPage.module.css';
 import { motion, useMotionValue } from 'framer-motion';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
@@ -16,22 +16,20 @@ const MainPage = () => {
     const [idValue, setIdValue] = useState('');
     const [nickNameValue, setNickNameValue] = useState('');
     const [companyValue, setCompanyValue] = useState('');
-    const [imgSrc, setImgSrc] = useState(
-        'https://images-ext-2.discordapp.net/external/RwTCihXk-8XznIG1dqikm3s5sffzfnXvWAKVvWhZsH4/https/cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png?width=936&height=936'
-    );
+    const [imgSrc, setImgSrc] = useState(null);
 
     const cookies = new Cookies();
 
     const nav = useNavigate();
-    const location = useLocation();
 
     const setCookie = (name, value) => {
         return cookies.set(name, value);
     };
 
     const getUserData = async () => {
-        if (location.state) {
-            const jwt = location.state.token;
+        if (localStorage.length !== 0) {
+            const userData = JSON.parse(localStorage.getItem('user'));
+            const jwt = userData.access;
             setCookie('jwt', jwt);
 
             const data = await axios.get(BASE_URL, { headers: { Authorization: jwt } });
@@ -39,12 +37,17 @@ const MainPage = () => {
             setIdValue(data.data.user.email);
             setNickNameValue(data.data.user['nick_name']);
             setCompanyValue(data.data.user.wannabe);
-            setImgSrc(`http://localhost:8000${data.data.user['profile_img']}`);
-        } else {
-            nav('/login');
+            const img = data.data.user['profile_img'];
+            setImgSrc(() => {
+                if (img) {
+                    return `http://localhost:8000${img}`;
+                } else {
+                    return 'https://images-ext-2.discordapp.net/external/RwTCihXk-8XznIG1dqikm3s5sffzfnXvWAKVvWhZsH4/https/cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png?width=936&height=936';
+                }
+            });
         }
     };
-    console.log(imgSrc);
+
     const handleMouseUp = () => {
         aivleDiv.current.style.opacity = 0;
         commDiv.current.style.opacity = 0;
@@ -93,7 +96,7 @@ const MainPage = () => {
             <div className={styles.container}>
                 <div className={styles.aivle__link} ref={aivleDiv}>
                     <h1>AIVLE로 출근하기</h1>
-                    <img src='./card-key.png' />
+                    <img src='../card-key.png' />
                 </div>
                 <div className={styles.comm__link} ref={commDiv}></div>
                 <div className={styles.background__opacity} ref={backDiv}></div>
@@ -110,7 +113,7 @@ const MainPage = () => {
                     <div className={styles.top}></div>
                     <div className={styles.hole}></div>
                     <div className={styles.logo_container}>
-                        <img className={styles.logo} src='aivle.png' />
+                        <img className={styles.logo} src='../aivle.png' />
                     </div>
                     <div className={styles.img__container}>
                         <img src={imgSrc} />

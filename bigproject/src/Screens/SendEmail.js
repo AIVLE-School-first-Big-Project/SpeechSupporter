@@ -73,7 +73,7 @@ const SendEmail = () => {
                 <div className={styles.hole}></div>
                 <div className={styles.top}></div>
                 <div className={styles.logo_container}>
-                    <img className={styles.logo} src='aivle.png' unselectable='on' />
+                    <img className={styles.logo} src='../aivle.png' unselectable='on' />
                 </div>
                 <span className={sendChk ? styles.send__text : styles.hidden}>이메일을 확인해 주세요!</span>
                 <div className={styles.input__container}>
