@@ -3,7 +3,6 @@ import Aivle from './Screens/Aivle';
 import LoginPage from './Screens/LoginPage';
 import MainPage from './Screens/MainPage';
 import PrivateRoute from './Utiles/PrivateRoute';
-import { AuthProvider } from './Utiles/AuthContext';
 
 import Register from './Screens/Register';
 import ResetPassword from './Screens/ResetPassword';

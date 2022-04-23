@@ -90,6 +90,17 @@ const Register = () => {
         setCompanyValue(value);
     };
 
+    const loginChk = () => {
+        const loginToken = localStorage.getItem('user');
+        if (loginToken) {
+            navigation('/aivle/main');
+        }
+    };
+
+    useEffect(() => {
+        loginChk();
+    }, []);
+
     return (
         <div className={styles.container}>
             <div className={styles.employee__card}>

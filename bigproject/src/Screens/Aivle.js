@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import styles from './Aivle.module.css';
 import { drawKeypoints, drawSkeleton } from '../Utilites';
+import { publishRefreshToken } from '../Utiles/axios';
 
 const Aivle = () => {
     const cookies = new Cookies();
@@ -14,6 +15,8 @@ const Aivle = () => {
     const setCookie = (name, value) => {
         return cookies.set(name, value);
     };
+
+    publishRefreshToken();
 
     const [keypoints, setKeypoints] = useState([]);
     const webcamRef = useRef(null);

@@ -33,12 +33,11 @@ const LoginPage = () => {
             const access = loginState.data.access;
             const refresh = loginState.data.refresh;
             const decode = jwt_decode(access);
-            const userData = { email: decode.user_email, access, refresh };
-            localStorage.setItem('user', JSON.stringify(userData));
+            const userData = { email: decode.user_email };
 
-            setTimeout(() => {
-                localStorage.removeItem('user');
-            }, 10000);
+            localStorage.setItem('user', JSON.stringify(userData));
+            localStorage.setItem('access', access);
+            localStorage.setItem('refresh', refresh);
 
             navigation('/aivle/main');
         }
@@ -61,13 +60,6 @@ const LoginPage = () => {
         */
     };
 
-    const loginChk = () => {
-        const loginToken = localStorage.getItem('user');
-        if (loginToken) {
-            navigation('/aivle/main');
-        }
-    };
-
     const passwordValueChk = (event) => {
         if (event.target.value !== '') {
             setPasswordInputState(true);
@@ -83,6 +75,13 @@ const LoginPage = () => {
             setIdInputState(false);
         }
         setIdValue(event.target.value);
+    };
+
+    const loginChk = () => {
+        const loginToken = localStorage.getItem('user');
+        if (loginToken) {
+            navigation('/aivle/main');
+        }
     };
 
     useEffect(() => {

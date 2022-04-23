@@ -4,6 +4,7 @@ import { motion, useMotionValue } from 'framer-motion';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 import axios from 'axios';
+import { publishRefreshToken } from '../Utiles/axios';
 
 const BASE_URL = 'http://localhost:8000/api/users/user/';
 
@@ -27,25 +28,23 @@ const MainPage = () => {
     };
 
     const getUserData = async () => {
-        if (localStorage.length !== 0) {
-            const userData = JSON.parse(localStorage.getItem('user'));
-            const jwt = userData.access;
-            setCookie('jwt', jwt);
+        publishRefreshToken();
 
-            const data = await axios.get(BASE_URL, { headers: { Authorization: jwt } });
+        const { data } = await axios.get(BASE_URL, { headers: { Authorization: localStorage.getItem('access') } });
 
-            setIdValue(data.data.user.email);
-            setNickNameValue(data.data.user['nick_name']);
-            setCompanyValue(data.data.user.wannabe);
-            const img = data.data.user['profile_img'];
-            setImgSrc(() => {
-                if (img) {
-                    return `http://localhost:8000${img}`;
-                } else {
-                    return 'https://images-ext-2.discordapp.net/external/RwTCihXk-8XznIG1dqikm3s5sffzfnXvWAKVvWhZsH4/https/cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png?width=936&height=936';
-                }
-            });
-        }
+        setIdValue(data.user.email);
+        setNickNameValue(data.user['nick_name']);
+        setCompanyValue(data.user.wannabe);
+
+        const img = data.user['profile_img'];
+
+        setImgSrc(() => {
+            if (img) {
+                return `http://localhost:8000${img}`;
+            } else {
+                return 'https://images-ext-2.discordapp.net/external/RwTCihXk-8XznIG1dqikm3s5sffzfnXvWAKVvWhZsH4/https/cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png?width=936&height=936';
+            }
+        });
     };
 
     const handleMouseUp = () => {
@@ -68,9 +67,9 @@ const MainPage = () => {
         commDiv.current.style.opacity = 0;
         backDiv.current.style.opacity = 0;
         if (x <= window.screen.width * 0.3) {
-            nav('/video');
+            nav('/aivle/video');
         } else if (x >= window.screen.width * 0.3 + 200) {
-            nav('/register');
+            nav('/aivle/register');
         }
     };
 
