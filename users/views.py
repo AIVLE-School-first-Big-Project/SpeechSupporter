@@ -153,7 +153,7 @@ class LogoutView(APIView):
         }
         return response
 
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 class UpdatePartialUserView(RetrieveUpdateAPIView):
     """
     유저 정보를 수정합니다. 기본 유저 필드는 조회되어 필드에 표현되고 부가 유저 필드를 포함하여 수정할 수 있습니다.
@@ -178,13 +178,17 @@ class UpdatePartialUserView(RetrieveUpdateAPIView):
         # serializer = self.get_serializer(self.object, data = request.data, partial=partial)
         if not serializer.is_valid(raise_exception=True):
             return Response(status=status.HTTP_409_CONFLICT, data = {'message':serializer.errors})
-        
+
+        # 아래 주석은 다른 api로 수행하기에 일시 주석처리
+        # self.object.set_password(request.data['password'])
+        # self.object.nick_name = serializer.validated_data['nick_name']
+        # self.object.wannabe = serializer.validated_data['wannabe']
+        # if not serializer.data['profile_img'] ==  None:
+        #     self.object.profile_img = serializer.data['profile_img']
+        # self.object.save()
         self.perform_update(serializer=serializer)
-        self.object.set_password(request.data['password'])
-        self.object.save()
 
         return Response(status=status.HTTP_202_ACCEPTED, data={"message": "success!"})
-
 
 #UpdatePartialUserView 구현으로인해 단독으로 사용하지 않음. 
 @permission_classes([IsAuthenticated])
