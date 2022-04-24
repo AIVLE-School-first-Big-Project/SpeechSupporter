@@ -1,359 +1,390 @@
-@import "./reset.css";
+@import './reset.css';
 @font-face {
-  font-family: "twayair";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twayair.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'twayair';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twayair.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: "GmarketSansMedium";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 body {
-  background-color: rgb(248, 250, 252);
+    background-color: rgb(248, 250, 252);
 }
 
 .container {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.container .logo {
-  position: absolute;
-  width: 150px;
+.topbar__container {
+    width: 65vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topbar__container div {
+    display: flex;
+    justify-content: center;
+    width: 33%;
 }
 
 .navigator {
-  width: 65vw;
-  height: 12vh;
-  display: flex;
-  justify-content: right;
-  align-items: center;
+    width: 33%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
 }
 
 .navigator .profile {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
 }
 
 .navigator h5 {
-  margin-right: 10px;
-  font-family: "GmarketSansMedium";
+    margin-right: 10px;
+    font-family: 'GmarketSansMedium';
 }
 
 .navigator a img {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
 }
 
 .menu {
-  width: 65vw;
-  height: 7vh;
-  display: flex;
-  justify-content: left;
-  align-items: center;
+    width: 65vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .menu a {
-  margin-left: 30px;
-  font-family: "GmarketSansMedium";
-  font-size: 30px;
-  font-weight: bold;
-  text-decoration: none;
-  color: black;
+    margin-left: 30px;
+    font-family: 'GmarketSansMedium';
+    font-size: 22px;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
 }
 
 .menu a:visited {
-  margin-left: 30px;
-  font-family: "GmarketSansMedium";
-  font-size: 30px;
-  font-weight: bold;
-  text-decoration: none;
-  color: rgb(200, 200, 200);
+    margin-left: 30px;
+    font-family: 'GmarketSansMedium';
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: rgb(200, 200, 200);
 }
 
 .menu a:active {
-  margin-left: 30px;
-  font-family: "GmarketSansMedium";
-  font-size: 30px;
-  font-weight: bold;
-  text-decoration: none;
-  color: black;
+    margin-left: 30px;
+    font-family: 'GmarketSansMedium';
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
 }
 
 .post_title {
-  width: 65vw;
-  height: 5vh;
-  display: flex;
-  align-items: center;
-  font-family: "GmarketSansMedium";
-  font-size: 15px;
-  border-bottom: 2px;
-  border-color: rgb(200, 200, 200);
-  border-style: solid;
+    width: 65vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'GmarketSansMedium';
+    font-size: 15px;
+    border-bottom: 2px;
+    border-color: rgb(200, 200, 200);
+    border-style: solid;
+    margin-top: 20px;
 }
 
 .post_title #number {
-  width: 5vw;
+    display: flex;
+    justify-content: center;
+    width: 50px;
 }
 
 .post_title #title {
-  width: 40vw;
-  margin-left: 5px;
+    display: flex;
+    justify-content: left;
+    width: 400px;
+    margin-left: 30px;
 }
 
 .post_title #user_id {
-  width: 5vw;
+    display: flex;
+    justify-content: center;
+    width: 200px;
 }
 
 .post_title #date {
-  width: 5vw;
+    display: flex;
+    justify-content: left;
+    width: 100px;
 }
 
 .post_title #like {
-  width: 5vw;
+    display: flex;
+    justify-content: center;
+    width: 100px;
 }
 
 .post_title #view {
-  width: 5vw;
+    display: flex;
+    justify-content: center;
+    width: 100px;
 }
 
 .post {
-  width: 65vw;
-  height: 65vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
+    width: 65vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 10px;
 }
 
 .post_num {
-  width: 65vw;
-  height: 5vh;
-  display: flex;
-  align-items: center;
-  font-family: "GmarketSansMedium";
+    width: 65vw;
+    height: 4vh;
+    display: flex;
+    align-items: center;
+    font-family: 'GmarketSansMedium';
 }
 
 .post_num #number {
-  width: 5vw;
-  font-size: 13px;
-  text-align: center;
+    width: 50px;
+    font-size: 13px;
+    text-align: center;
 }
 
 .post_num #title {
-  width: 40vw;
-  font-size: 20px;
+    width: 400px;
+    font-size: 15px;
+    margin-left: 30px;
 }
 
 .post_num #title a:link {
-  text-decoration: none;
-  color: black;
+    text-decoration: none;
+    color: black;
 }
 
 .post_num #title a:visited {
-  text-decoration: none;
-  color: black;
+    text-decoration: none;
+    color: black;
 }
 
 .post_num #title a:hover {
-  color: rgb(150, 150, 150);
+    color: rgb(150, 150, 150);
 }
 
 .post_num #user_id {
-  width: 5vw;
-  font-size: 15px;
+    display: flex;
+    justify-content: center;
+    width: 200px;
+    font-size: 12px;
 }
 
 .post_num #date {
-  font-size: 10px;
-  width: 5vw;
+    font-size: 10px;
+    width: 100px;
 }
 
 .post_num #like {
-  font-size: 10px;
-  width: 4.5vw;
-  padding-inline-start: 0.5vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 10px;
+    width: 100px;
+    padding-inline-start: 0.5vw;
 }
 
 .post_num #like img {
-  width: 0.5vw;
-  margin-right: 0.3vw;
+    width: 10px;
+    margin-bottom: 2px;
 }
 
 .post_num #view {
-  font-size: 10px;
-  width: 4.5vw;
-  padding-inline-start: 0.5vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    width: 100px;
 }
 
 .post_num #view img {
-  width: 0.5vw;
-  margin-right: 0.3vw;
+    width: 10px;
+    margin-bottom: 2px;
 }
 
 .footer {
-  width: 65vw;
-  height: 11vh;
-  display: flex;
-  align-items: center;
-  border-top: 2px;
-  border-color: rgb(200, 200, 200);
-  border-style: solid;
+    width: 65vw;
+    height: 11vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px;
+    border-color: rgb(200, 200, 200);
+    border-style: solid;
+}
+
+.page__conatainer {
+    display: flex;
+    justify-content: center;
+    width: 33%;
+}
+
+.sort__conatainer {
+    width: 33%;
+    display: flex;
+    justify-content: right;
 }
 
 .write {
-  width: 10vw;
-  height: 11vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 33%;
+    height: 11vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .write button {
-  width: 100px;
-  height: 40px;
-  font-family: "GmarketSansMedium";
-  font-size: 15px;
-  color: white;
-  background-color: #4876ef;
-  border: none;
-  border-radius: 5px;
+    width: 100px;
+    height: 40px;
+    font-family: 'GmarketSansMedium';
+    font-size: 15px;
+    color: white;
+    background-color: #4876ef;
+    border: none;
+    border-radius: 5px;
 }
 
 .write button:hover {
-  width: 100px;
-  height: 40px;
-  font-family: "GmarketSansMedium";
-  font-size: 15px;
-  color: white;
-  background-color: blue;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.empty {
-  width: 4vw;
-  height: 11vh;
-  display: flex;
+    width: 100px;
+    height: 40px;
+    font-family: 'GmarketSansMedium';
+    font-size: 15px;
+    color: white;
+    background-color: blue;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .page {
-  width: 27vw;
-  height: 11vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    width: 250px;
+    height: 11vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .page a {
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "GmarketSansMedium";
-  font-size: 15px;
-  background-color: rgb(248, 250, 252);
-  margin: 2px;
-  border-radius: 5px;
-  text-decoration: none;
-  color: black;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'GmarketSansMedium';
+    font-size: 13px;
+    background-color: rgb(248, 250, 252);
+    margin: 2px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: black;
 }
 
 .page a:visited {
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "GmarketSansMedium";
-  font-size: 15px;
-  background-color: rgb(248, 250, 252);
-  margin: 2px;
-  border-radius: 5px;
-  text-decoration: none;
-  color: black;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'GmarketSansMedium';
+    font-size: 13px;
+    background-color: rgb(248, 250, 252);
+    margin: 2px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: black;
 }
 
 .page a:hover {
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "GmarketSansMedium";
-  font-size: 15px;
-  background-color: #4876ef;
-  margin: 2px;
-  border-radius: 5px;
-  text-decoration: none;
-  color: white;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'GmarketSansMedium';
+    font-size: 13px;
+    background-color: #4876ef;
+    margin: 2px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
 }
 
 .page button {
-  width: 30px;
-  height: 30px;
-  background-color: rgb(248, 250, 252);
-  border: none;
-  border-radius: 5px;
-  font-family: "GmarketSansMedium";
-  cursor: pointer;
+    width: 30px;
+    height: 30px;
+    background-color: rgb(248, 250, 252);
+    border: none;
+    border-radius: 5px;
+    font-family: 'GmarketSansMedium';
+    cursor: pointer;
 }
 
 .page button:hover {
-  width: 30px;
-  height: 30px;
-  background-color: #4876ef;
-  border: none;
-  border-radius: 5px;
-  font-family: "GmarketSansMedium";
-  cursor: pointer;
-  color: white;
+    width: 30px;
+    height: 30px;
+    background-color: #4876ef;
+    border: none;
+    border-radius: 5px;
+    font-family: 'GmarketSansMedium';
+    cursor: pointer;
+    color: white;
 }
 
 .sort {
-  width: 12vw;
-  height: 11vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    width: 200px;
+    height: 11vh;
+    display: flex;
+    justify-content: right;
+    align-items: center;
 }
 
 .sort label {
-  font-family: "GmarketSansMedium";
-  font-size: 12px;
-  margin-right: 4px;
+    font-family: 'GmarketSansMedium';
+    font-size: 12px;
+    margin-right: 4px;
 }
 
 .search {
-  width: 12vw;
-  height: 11vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    height: 11vh;
+    display: flex;
+    align-items: center;
 }
 
 .search input {
-  width: 250px;
-  height: 25px;
-  border: 2px;
-  border-color: #4876ef;
-  border-style: solid;
-  border-radius: 3px;
-  text-align: left;
-  padding-inline-start: 10px;
-  font-family: "GmarketSansMedium";
+    width: 250px;
+    height: 25px;
+    border: 2px;
+    border-color: #4876ef;
+    border-style: solid;
+    border-radius: 3px;
+    text-align: left;
+    padding-inline-start: 10px;
+    font-family: 'GmarketSansMedium';
 }
