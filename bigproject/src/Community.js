@@ -154,33 +154,56 @@ const dat = [
   },
 ];
 
+const page_num = (tot) => {
+  let page_num = [];
+  if (tot < 10) {
+    for (let k = 1; k < tot + 1; k++) {
+      page_num.push(k);
+    }
+  } else {
+    page_num = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  }
+  return page_num;
+};
+
+let pagenum = page_num(34);
+
 const Community = () => {
   const [data, setData] = useState([]);
-  const [pagelist, setPagelist] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const [pagelist, setPagelist] = useState(pagenum);
   const [totpage, setTotpage] = useState(34);
   const [curpage, setCurpage] = useState(1);
   let p = [];
 
-  const right_btn = () => {
-    for (let i = 0; i < 10; i++) {
-      p[i] = pagelist[i] + 10;
+  const leftbtn_appear = () => {
+    if (pagelist[0] != 1) {
+      return <button onClick={left_btn}>◀</button>;
     }
-    console.log(p);
+  };
+
+  const rightbtn_appear = () => {
+    if (pagelist[pagelist.length - 1] < totpage) {
+      return <button onClick={right_btn}>▶</button>;
+    }
+  };
+
+  const right_btn = () => {
+    let index_of_totpage = 10;
+    for (let i = 0; i < 10; i++) {
+      p[i] = pagelist[0] + 10 + i;
+      if (p[i] == totpage) {
+        index_of_totpage = i;
+      }
+    }
+    p = p.slice(0, index_of_totpage + 1);
     setPagelist(p);
   };
 
   const left_btn = () => {
     for (let i = 0; i < 10; i++) {
-      p[i] = pagelist[i] - 10;
+      p[i] = pagelist[0] - 10 + i;
     }
-    console.log(p);
     setPagelist(p);
-  };
-
-  const pagenate = () => {
-    pagelist.map((num) => {
-      return <a href="">{num}</a>;
-    });
   };
 
   useEffect(() => {
@@ -241,12 +264,21 @@ const Community = () => {
             <button>글쓰기</button>
           </a>
         </div>
+        <div className={styles.empty}></div>
         <div className={styles.page}>
-          <button onClick={left_btn}>◀</button>
+          {leftbtn_appear()}
           {pagelist.map((num) => {
             return <a href="">{num}</a>;
           })}
-          <button onClick={right_btn}>▶</button>
+          {rightbtn_appear()}
+        </div>
+        <div className={styles.sort}>
+          <input type="radio" name="sort" id="sort_date" defaultChecked />
+          <label htmlFor="sort_date">최신순</label>
+          <input type="radio" name="sort" id="sort_like" />
+          <label htmlFor="sort_like">좋아요순</label>
+          <input type="radio" name="sort" id="sort_view" />
+          <label htmlFor="sort_view">조회순</label>
         </div>
         <div className={styles.search}>
           <input placeholder="검색" />

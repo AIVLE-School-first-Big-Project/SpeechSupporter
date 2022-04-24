@@ -4,6 +4,7 @@ import MainPage from "./MainPage";
 import Register from "./Register";
 import Community from "./Community";
 import Write from "./Write";
+import Modify from "./Modify";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
+        <Route path="/modify" element={<Modify />} />
       </Routes>
     </Router>
   );
