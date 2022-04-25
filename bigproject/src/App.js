@@ -11,6 +11,7 @@ import SendEmail from "./Screens/SendEmail";
 import Community from "./Community";
 import Write from "./Write";
 import Modify from "./Modify";
+import Modify_pwd from "./Modify_pwd";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
         <Route path="/modify" element={<Modify />} />
+        <Route path="/modify_pwd" element={<Modify_pwd />} />
       </Routes>
     </Router>
   );

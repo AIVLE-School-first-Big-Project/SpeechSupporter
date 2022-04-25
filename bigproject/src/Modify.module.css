@@ -42,10 +42,10 @@ body {
 
 .neckless__container {
   display: flex;
+  margin-top: -10vw;
 }
 
 .neckless_front {
-  margin-top: -20vh;
   margin-right: 20px;
   width: 30px;
   height: 170px;
@@ -57,7 +57,6 @@ body {
 }
 
 .neckless_back {
-  margin-top: -20vh;
   width: 30px;
   height: 170px;
   margin-left: 35px;
@@ -76,7 +75,6 @@ body {
   flex-direction: column;
   align-items: center;
   transform: rotateY(0deg);
-  transition: all 1.5s ease-in-out;
   box-shadow: 0 0 10px 5px rgb(225, 225, 226);
   background-color: rgba(255, 255, 255, 0.5);
   border: none;
@@ -128,14 +126,6 @@ body {
   margin-top: 20px;
 }
 
-.employee__card__text__container span {
-  font-family: GmarketSansMedium;
-  font-size: 10px;
-  width: 200px;
-  margin-bottom: 100px;
-  text-align: center;
-}
-
 .input__container {
   display: flex;
   flex-direction: column;
@@ -149,13 +139,13 @@ body {
 .input__container h1 {
   font-family: GmarketSansMedium;
   color: rgba(0, 0, 0, 0.863);
-  font-size: 24px;
-  margin-top: 20px;
+  font-size: 22px;
+  margin-top: 15px;
 }
 
 .upload__img__container {
-  width: 140px;
-  height: 140px;
+  width: 130px;
+  height: 130px;
   border: none;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.5);
@@ -164,25 +154,40 @@ body {
 }
 
 .upload__img__container img {
-  width: 140px;
-  height: 140px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
+}
+
+.employee__card__text__container {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .employee__card__text__container span:first-child {
   font-family: GmarketSansMedium;
-  font-size: 30px;
-  width: 200px;
-  margin-bottom: 20px;
-  text-align: center;
+  font-size: 18px;
+  margin-top: 30px;
+  padding-left: 55px;
+  margin-bottom: 40px;
+}
+
+.employee__card__text__container span:nth-child(2) {
+  font-family: GmarketSansMedium;
+  font-size: 18px;
+  margin-bottom: 80px;
+  padding-left: 55px;
 }
 
 .employee__card__text__container span:last-child {
   font-family: GmarketSansMedium;
-  font-size: 25px;
-  width: 200px;
-  margin-bottom: 10px;
-  text-align: center;
+  width: 400px;
+  display: flex;
+  justify-content: center;
+  font-size: 24px;
 }
 
 .upload__img__container label {
@@ -206,13 +211,14 @@ body {
   margin-left: 20px;
   margin-right: auto;
   font-family: GmarketSansMedium;
+  font-size: 14px;
   color: rgba(0, 0, 0, 0.863);
 }
 
 .form__container form input {
   box-sizing: border-box;
   width: 250px;
-  height: 40px;
+  height: 35px;
   border: none;
   outline: none;
   border-radius: 20px;
@@ -222,13 +228,37 @@ body {
   font-family: GmarketSansMedium;
 }
 
+.form__container form button {
+  width: 150px;
+  height: 35px;
+  background-color: rgb(215, 217, 221);
+  border: none;
+  border-radius: 10px;
+  font-family: GmarketSansMedium;
+  text-align: center;
+  cursor: pointer;
+}
+
+.form__container form button:active {
+  width: 150px;
+  height: 35px;
+  border: 2px;
+  background-color: #4876ef;
+  border-style: solid;
+  color: white;
+  border-color: white;
+  border-radius: 10px;
+  font-family: GmarketSansMedium;
+  text-align: center;
+}
+
 .form__container form input:last-child {
   width: 150px;
-  height: 40px;
+  height: 35px;
   text-align: center;
   padding-inline-start: 0px;
   border-radius: 10px;
-  margin-top: 30px;
+  margin-top: 20px;
   cursor: pointer;
   background-color: rgb(215, 217, 221);
 }
