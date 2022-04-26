@@ -6,13 +6,24 @@ import axios from "axios";
 // const BASE_URL = "http://localhost:8000/api/users/set_password/";
 
 const Modify_pwd = () => {
+  const [fpasswordInputState, setFpasswordInputState] = useState(false);
   const [passwordInputState, setPasswordInputState] = useState(false);
   const [password2InputState, setPassword2InputState] = useState(false);
+  const [fpassword, setFpassword] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
 
   //   const email = useLocation().state.email;
   //   const navigation = useNavigate();
+
+  const fpasswordValueChk = (event) => {
+    if (event.target.value !== "") {
+      setFpasswordInputState(true);
+    } else {
+      setFpasswordInputState(false);
+    }
+    setFpassword(event.target.value);
+  };
 
   const passwordValueChk = (event) => {
     if (event.target.value !== "") {
@@ -64,12 +75,30 @@ const Modify_pwd = () => {
           <div>
             <input
               type="password"
+              id="fpassword"
+              className={styles.password__input}
+              onChange={fpasswordValueChk}
+              autoComplete="false"
+            />
+            <label
+              htmlFor="fpassword"
+              className={
+                passwordInputState
+                  ? styles.password_label__focused
+                  : styles.password_label
+              }
+            >
+              기존 비밀번호를 입력해주세요.
+            </label>
+          </div>
+          <div>
+            <input
+              type="password"
               id="password"
               className={styles.password__input}
               onChange={passwordValueChk}
               autoComplete="false"
             />
-
             <label
               htmlFor="password"
               className={

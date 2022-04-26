@@ -18,11 +18,11 @@ const Write = () => {
         <span>글 쓰 기</span>
       </div>
       <div className={styles.select}>
-        <input type="radio" id="radio" />
+        <input type="radio" id="radio" name="select" defaultChecked />
         <span>자유게시판</span>
-        <input type="radio" id="radio" />
+        <input type="radio" id="radio" name="select" />
         <span>다른게시판</span>
-        <input type="radio" id="radio" />
+        <input type="radio" id="radio" name="select" />
         <span>다른게시판</span>
       </div>
       <div className={styles.input_title}>

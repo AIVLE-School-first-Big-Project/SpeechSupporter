@@ -203,16 +203,25 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   margin-top: 15px;
 }
 
 .form__container form label {
-  margin-top: 10px;
+  margin-top: 15px;
   margin-left: 20px;
   margin-right: auto;
   font-family: GmarketSansMedium;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.863);
+}
+
+.form__container form p {
+  margin-top: 15px;
+  margin-bottom: 5px;
+  text-align: center;
+  font-family: GmarketSansMedium;
+  font-size: 15px;
 }
 
 .form__container form input {
@@ -237,6 +246,7 @@ body {
   font-family: GmarketSansMedium;
   text-align: center;
   cursor: pointer;
+  margin-top: 15px;
 }
 
 .form__container form button:active {

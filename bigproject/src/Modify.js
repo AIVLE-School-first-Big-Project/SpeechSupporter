@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const BASE_URL = "http://localhost:8000/api/users/register/";
 
 const Modify = () => {
-  const [idValue, setIdValue] = useState("");
+  const [idValue, setIdValue] = useState("abcd@dcba.com");
   const [passwordValue, setPasswordValue] = useState("");
   const [password2Value, setPassword2Value] = useState("");
   const [imgForm, setImageForm] = useState([]);
@@ -25,17 +25,6 @@ const Modify = () => {
   };
 
   const sendLoginData = async (password, password2) => {
-    /*
-        formData.append('nick_name', nickNameValue);
-        formData.append('password', passwordValue);
-        formData.append('email', idValue);
-        formData.append('wannabe', companyValue);
-        */
-
-    // if (password !== password2) {
-    //   return alert("비밀번호를 확인해주세요!");
-    // }
-
     const loginData = {
       nick_name: nickNameValue,
       password: passwordValue,
@@ -44,7 +33,6 @@ const Modify = () => {
     };
 
     formData.append("nick_name", nickNameValue);
-    // formData.append("password", passwordValue);
     formData.append("email", idValue);
     formData.append("wannabe", companyValue);
     formData.append("profile_img", imgForm);
@@ -55,7 +43,7 @@ const Modify = () => {
       },
     });
     if (joinState.data.state) {
-      //navigation('/login');
+      navigation("/login");
     }
   };
 
@@ -63,21 +51,6 @@ const Modify = () => {
     const file = event.target.files;
     setImageFile(file[0].name);
     setImageForm(file[0]);
-  };
-
-  // const passwordValueChk = (event) => {
-  //   const value = event.target.value;
-  //   setPasswordValue(value);
-  // };
-
-  // const password2ValueChk = (event) => {
-  //   const value = event.target.value;
-  //   setPassword2Value(value);
-  // };
-
-  const idValueChk = (event) => {
-    const value = event.target.value;
-    setIdValue(value);
   };
 
   const nickNameValueChk = (event) => {
@@ -132,15 +105,9 @@ const Modify = () => {
         </div>
         <div className={styles.form__container}>
           <form method="post">
-            <label htmlFor="id">아이디</label>
-            <input
-              placeholder="ID"
-              type="email"
-              id="id"
-              required
-              onChange={idValueChk}
-            />
-            <label htmlFor="password">비밀번호</label>
+            <label>아이디</label>
+            <p>{idValue}</p>
+            <label>비밀번호</label>
             <button type="button" onClick="">
               비밀번호 변경
             </button>
