@@ -44,6 +44,7 @@ function App() {
                 <Route path='/community' element={<Community />} />
                 <Route path='/write' element={<Write />} />
                 <Route path='/modify' element={<Modify />} />
+                <Route path="/board" element={<Board />} />
             </Routes>
         </Router>
     );

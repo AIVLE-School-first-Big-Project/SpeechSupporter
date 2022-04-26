@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^34.0.0",
+    "@ckeditor/ckeditor5-react": "^5.0.0",
     "@tensorflow-models/posenet": "^2.2.2",
     "@tensorflow/tfjs": "^3.15.0",
     "axios": "^0.26.1",
@@ -43,6 +45,9 @@
       "last 1 safari version"
     ]
   },
+<<<<<<< HEAD
   "proxy": "http://localhost:8000/"
+=======
+  "proxy": "http://localhost:8000"
+>>>>>>> 2efeb91cca7cfe61eea5fc250433bce309dd3ef1
 }
-
