@@ -39,9 +39,13 @@ function App() {
                         </PrivateRoute>
                     }
                 />
+
+                <Route path='/register' element={<Register />} />
+                <Route path='/community' element={<Community />} />
+                <Route path='/write' element={<Write />} />
+                <Route path='/modify' element={<Modify />} />
             </Routes>
         </Router>
     );
 }
-
 export default App;
