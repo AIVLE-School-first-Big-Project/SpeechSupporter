@@ -33,6 +33,7 @@ class CommentSerializerSub(serializers.ModelSerializer):
         fields = ['id', 'author', 'content', 'update_dt']
 
 class PostRetrieveSerializer(serializers.ModelSerializer):
+    email = serializers.ReadOnlyField(source = 'user.email')
     user = serializers.ReadOnlyField(source = 'user.nick_name')
     category = serializers.StringRelatedField()
     tags = serializers.StringRelatedField(many=True)
@@ -84,3 +85,11 @@ class TagSerializer(serializers.ModelSerializer):
 class CateTagSerializer(serializers.Serializer):
     cateList = serializers.ListField(child=serializers.CharField())
     tagList = serializers.ListField(child=serializers.CharField())
+
+class PostModifySerializer(serializers.ModelSerializer):
+    content = serializers.StringRelatedField()
+    title = serializers.StringRelatedField()
+    id = serializers.StringRelatedField()
+    class Meta:
+        model = Post
+        fields = ['content', 'title', 'id']

@@ -110,9 +110,14 @@ class PostRetreiveAPIView(RetrieveAPIView):
     queryset = Post.objects.all()
 
     def retrieve(self, request, *args, **kwargs):
+        my_post = False
         instance = self.get_object()
         prevInstance, nextInstance = get_prev_next(instance)
         commentList = instance.comment_set.all()
+        if instance.user == request.user:
+            my_post = True
+
+        instance.my_post = my_post
 
         data = {
             'post' : instance,
@@ -186,3 +191,32 @@ class PostListAPIView(ListAPIView):
     serializer_class = PostListSerializer
     pagination_class = PostPageNumberPagination
 
+@permission_classes([IsAuthenticated])
+class PostModifyAPIView(UpdateAPIView): # 게시글 수정, 삭제하는 페이지
+    serializer_class = PostModifySerializer
+    def post(self, request): # 게시글 수정할 수 있는 페이지 - id 넘겨 주세요
+        posting = Post.objects.get(id = request.data['id'])
+        data = {
+            'content' : posting.content,
+            'title' : posting.title,
+            'id' : posting.id
+        }
+        serializer = self.get_serializer(instance=data) # 아이디와 내용과 제목을 드릴게요
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def update(self, request): # 사용자가 글 수정 화면에서 글 수정을 누를 때 - 아이디와 변경내용, 변경 제목을 주세요
+        title = request.data['title']
+        content = request.data['content']
+        user = Post.objects.get(id = request.data['id'])
+
+        user.title = title
+        user.content = content
+        user.save()
+
+        return Response({"message" : "Modify Success"}, status=status.HTTP_200_OK)
+    
+    def delete(self, request): # 사용자가 글 수정 화면에서 글 삭제을 누를 때 - 아이디만 주세여
+        user = Post.objects.get(id = request.data['id'])
+        user.delete()
+
+        return Response({"message" : "Remove Success"}, status=status.HTTP_200_OK)

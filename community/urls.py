@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from community.views import PostLikeAPIView, CateTagAPIView, PostCreateAPIView, CommentCreateAPIView, PostListAPIView, PostRetreiveAPIView, PostLikeAPIView
+from community.views import PostLikeAPIView, CateTagAPIView, PostCreateAPIView, CommentCreateAPIView, PostListAPIView, PostRetreiveAPIView, PostLikeAPIView, PostModifyAPIView
 app_name = 'post'
 urlpatterns = [
     path('post/', PostCreateAPIView.as_view()), 
@@ -10,4 +10,5 @@ urlpatterns = [
     path('<int:pk>/comment/', CommentCreateAPIView.as_view()), 
     path('<int:pk>/like/', PostLikeAPIView.as_view()), 
     path('catetag/', CateTagAPIView.as_view()), 
+    path('modify/', PostModifyAPIView.as_view()), 
 ]
