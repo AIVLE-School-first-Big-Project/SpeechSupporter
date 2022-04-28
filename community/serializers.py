@@ -70,8 +70,6 @@ class PostUserSearchSerializer(serializers.ModelSerializer):
         model = Post
         fields = ['user', 'title', ]
 
-
-
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category

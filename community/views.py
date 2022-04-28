@@ -1,7 +1,8 @@
 from collections import OrderedDict
-from os import stat
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+
+from community.filters import PostFilter
 from .serializers import *
 from .models import *
 from users.models import *
@@ -132,7 +133,7 @@ class PostRetreiveAPIView(RetrieveAPIView):
 
 
 # class PostLikeAPIView(UpdateAPIView):
-permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 class PostLikeAPIView(GenericAPIView):
     queryset = Post.objects.all()
     #GET으로 처리함으로써 serializer는 삭제해도 됨.
@@ -190,6 +191,26 @@ class PostListAPIView(ListAPIView):
     queryset = Post.objects.all().order_by("create_dt").reverse()
     serializer_class = PostListSerializer
     pagination_class = PostPageNumberPagination
+
+    filter_class = PostFilter
+
+class MyPostListAPIView(ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostListSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        print(request.user)
+        try:
+            obj = queryset.filter(user_id=self.request.user.id)
+        except:
+            return Response(status=status.HTTP_409_CONFLICT, data={'message': '데이터가 존재하지 않습니다.'})
+
+        serializer = self.get_serializer(obj, many = True)
+        if len(serializer.data) < 1:
+            return Response(data={'message':'아직 작성한 글이 없습니다.'})
+
+        return Response(serializer.data)
 
 @permission_classes([IsAuthenticated])
 class PostModifyAPIView(UpdateAPIView): # 게시글 수정, 삭제하는 페이지
