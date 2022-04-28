@@ -73,7 +73,7 @@ const Community = () => {
                 </div>
                 <nav className={styles.navigator}>
                     <img className={styles.profile} src='king.png' />
-                    <h5 id='id'>{localStorage.getItem('user')}</h5>
+                    <h5 id='id'>아이디</h5>
                     <a href=''>
                         <img src='google.png' />
                     </a>
@@ -101,12 +101,12 @@ const Community = () => {
                 <div id={styles.view}>조회수</div>
             </div>
             <div className={styles.post}>
-                {postData.map((data) => {
+                {data.map((data) => {
                     return (
                         <div className={styles.post_num}>
                             <div id={styles.number}>{data['id']}</div>
                             <div id={styles.title}>
-                                <a href={`board/${data.id}`}>{data['title']}</a>
+                                <a href=''>{data['title']}</a>
                             </div>
                             <div id={styles.user_id}>{data['user']}</div>
                             <div id={styles.date}>{data['create_dt'].slice(5, 10)}</div>
