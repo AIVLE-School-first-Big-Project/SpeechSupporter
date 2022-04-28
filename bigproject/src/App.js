@@ -7,6 +7,10 @@ import PrivateRoute from './Utiles/PrivateRoute';
 import Register from './Screens/Register';
 import ResetPassword from './Screens/ResetPassword';
 import SendEmail from './Screens/SendEmail';
+import Community from './Community';
+import Board from './Board';
+import Modify from './Modify';
+import Write from './Write';
 
 function App() {
     return (
@@ -39,12 +43,11 @@ function App() {
                         </PrivateRoute>
                     }
                 />
-
                 <Route path='/register' element={<Register />} />
                 <Route path='/community' element={<Community />} />
                 <Route path='/write' element={<Write />} />
                 <Route path='/modify' element={<Modify />} />
-                <Route path="/board" element={<Board />} />
+                <Route path='/board/:id' element={<Board />} />
             </Routes>
         </Router>
     );

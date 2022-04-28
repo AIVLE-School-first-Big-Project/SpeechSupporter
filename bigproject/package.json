@@ -45,9 +45,5 @@
       "last 1 safari version"
     ]
   },
-<<<<<<< HEAD
   "proxy": "http://localhost:8000/"
-=======
-  "proxy": "http://localhost:8000"
->>>>>>> 2efeb91cca7cfe61eea5fc250433bce309dd3ef1
 }

@@ -127,7 +127,7 @@ class UserView(APIView):
         # token = request.header.
         # token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMywidXNlcm5hbWUiOiJkbmpzd28xMjM0QG5hdmVyLmNvbSIsImV4cCI6MTY1MDQ3MjQ3NSwiZW1haWwiOiJkbmpzd28xMjM0QG5hdmVyLmNvbSIsIm9yaWdfaWF0IjoxNjUwNDY4ODc1fQ.v90ueJHFDDwxq2ypo3hVV5Q2I1mvfp2bjJrQDSqAxT8'
         # token = token.split('jwt')[1].lstrip()
-        print(token)
+        
         if not token:
             raise AuthenticationFailed('Unauthenticated!')
         try:
