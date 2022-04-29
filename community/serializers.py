@@ -27,10 +27,11 @@ class PostListSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializerSub(serializers.ModelSerializer):
-    author = serializers.ReadOnlyField(source = 'author.nick_name')
+    author = UserSerializer(read_only=True)
     class Meta:
         model = Comment
         fields = ['id', 'author', 'content', 'update_dt']
+        # fields = '__all__'
 
 class PostRetrieveSerializer(serializers.ModelSerializer):
     email = serializers.ReadOnlyField(source = 'user.email')
@@ -54,6 +55,8 @@ class PostDetailSerializer(serializers.Serializer):
     commentList = CommentSerializerSub(many = True)
     
 class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source = 'user.nick_name')
+
     class Meta:
         model = Comment
         fields = '__all__'
@@ -62,13 +65,6 @@ class PostLikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post 
         fields = ['like']
-
-class PostUserSearchSerializer(serializers.ModelSerializer):
-    postlink = serializers.URLField(read_only=True)
-
-    class Meta:
-        model = Post
-        fields = ['user', 'title', ]
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:

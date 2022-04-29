@@ -88,7 +88,7 @@ class CommentCreateAPIView(CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             print(request.user)
-            serializer.save(post_id=self.kwargs.get('pk'))
+            serializer.save(post_id=self.kwargs.get('pk'), author_id=request.user.id)
         return Response(status=status.HTTP_201_CREATED, data={"message": "comment created"})
 
 
@@ -157,11 +157,6 @@ class PostLikeAPIView(GenericAPIView):
     #     return Response(serializer.data)
     #GET method
 
-class PostUserSearchAPIView(GenericAPIView):
-    serializer_class = PostUserSearchSerializer
-
-    #posturl 테이블을 만들어서 해결.
-    #
 class CateTagAPIView(APIView):
     def get(self, request):
         cateList = Category.objects.all()
@@ -176,7 +171,7 @@ class CateTagAPIView(APIView):
 
 #ListView Pagination
 class PostPageNumberPagination(PageNumberPagination):
-    page_size = 5
+    page_size = 15
 
     def get_paginated_response(self, data):
         return Response(OrderedDict([
