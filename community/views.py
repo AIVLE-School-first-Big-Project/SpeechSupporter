@@ -25,7 +25,7 @@ def post_create(request): # 글쓰기 - 내용, 제목
         # return HttpResponse("Login Plz")
     if request.method == "POST":
         data = JSONParser().parse(request)
-        
+        print(data)
         data['user'] = request.session.get('user')
         print(data)
         serializer = PostCreateSerializer(data=data)
