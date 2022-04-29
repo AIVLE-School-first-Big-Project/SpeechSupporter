@@ -84,7 +84,7 @@ body {
 .menu a:visited {
   margin-left: 30px;
   font-family: "GmarketSansMedium";
-  font-size: 30px;
+  font-size: 22px;
   font-weight: bold;
   text-decoration: none;
   color: rgb(200, 200, 200);
@@ -93,7 +93,7 @@ body {
 .menu a:active {
   margin-left: 30px;
   font-family: "GmarketSansMedium";
-  font-size: 30px;
+  font-size: 22px;
   font-weight: bold;
   text-decoration: none;
   color: black;
@@ -287,7 +287,67 @@ body {
   align-items: center;
 }
 
-.page a {
+.not_curpage {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "GmarketSansMedium";
+  font-size: 13px;
+  background-color: rgb(248, 250, 252);
+  margin: 2px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: black;
+}
+
+.not_curpage:visited {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "GmarketSansMedium";
+  font-size: 13px;
+  background-color: rgb(248, 250, 252);
+  margin: 2px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: black;
+}
+
+.not_curpage:hover {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "GmarketSansMedium";
+  font-size: 13px;
+  background-color: #4876ef;
+  margin: 2px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
+}
+
+.selected_page {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "GmarketSansMedium";
+  font-size: 13px;
+  background-color: #4876ef;
+  margin: 2px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: rgb(248, 250, 252);
+}
+
+/* .page a {
   width: 30px;
   height: 30px;
   display: flex;
@@ -330,7 +390,7 @@ body {
   border-radius: 5px;
   text-decoration: none;
   color: white;
-}
+} */
 
 .page button {
   width: 30px;
