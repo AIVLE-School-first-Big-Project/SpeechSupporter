@@ -1,6 +1,7 @@
 import axios from 'axios';
 import styles from './Write.module.css';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { publishRefreshToken } from './Utiles/axios';
 
 const url = 'http://localhost:8000/api/post/post/';
@@ -9,6 +10,8 @@ const Write = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [category, setCategory] = useState(0);
+
+    const nav = useNavigate();
 
     const sendPostData = async () => {
         publishRefreshToken();
@@ -38,6 +41,7 @@ const Write = () => {
 
     const saveBtnClick = () => {
         sendPostData();
+        nav('/community');
     };
 
     return (
