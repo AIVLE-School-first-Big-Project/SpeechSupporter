@@ -66,6 +66,7 @@ JWT_AUTH = {
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -74,9 +75,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'users',
+    'community',
+    'service',
     'rest_framework',
     'rest_framework_simplejwt',
-    'community',
     'corsheaders',
 ]
 
@@ -93,6 +95,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'speechsupporter.urls'
 
+CHANNEL_LAYERS = {
+    'default':{ 
+        'BACKEND' : 'channels.layers.InMemoryChannelLayer'
+    }
+}
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -108,6 +116,8 @@ TEMPLATES = [
         },
     },
 ]
+
+ASGI_APPLICATION = 'speechsupporter.asgi.application'
 
 WSGI_APPLICATION = 'speechsupporter.wsgi.application'
 
