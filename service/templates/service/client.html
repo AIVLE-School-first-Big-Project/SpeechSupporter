@@ -1,0 +1,30 @@
+<html>
+
+  <head>
+    <title>Client</title>
+  </head>
+
+  <body>
+    <img src=""/>
+    <script>
+      // get img dom element
+      const img = document.querySelector("img");
+
+      const WS_URL = `ws://${window.location.host}/ws/cam/`;
+      const ws = new WebSocket(WS_URL);
+      ws.onopen = () => console.log(`Connected to ${WS_URL}`);
+
+      ws.onmessage = (message) => {
+        // set the base64 string to the src tag of the image
+        img.src = JSON
+          .parse(message.data)
+          .message;
+      };
+
+      ws.onclose = function (evt) {
+        console.log("Connection closed.");
+      };
+    </script>
+  </body>
+
+</html>
