@@ -19,6 +19,10 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework import status
 
+import joblib
+from .Data_preprocessing import *
+from sklearn.feature_extraction.text import TfidfVectorizer
+
 @csrf_exempt
 def post_create(request): # 글쓰기 - 내용, 제목
     # if request.method == "GET":
@@ -49,10 +53,22 @@ def post_create(request): # 글쓰기 - 내용, 제목
 @permission_classes([IsAuthenticated])
 class PostCreateAPIView(CreateAPIView):
     queryset = Post.objects.all()
+    
+    global model
+    global vector
+
+    model = joblib.load('community/model/xgb.pkl') # 비속어 모델 소환
+    vector = joblib.load('community/model/vector.pkl') # 임베딩 모델 소환
+
     def get_queryset(self):
         return super().get_queryset().prefetch_related('tags', 'category')
     serializer_class = PostCreateSerializer
     def create(self, request, *args, **kwargs):
+        text = request.data['title'] + request.data['content']
+        text = apply_preprocessing(text) # 
+        y_pred = model.predict(text)
+        if y_pred == 1: return Response(status=status.HTTP_201_CREATED, data = {'message':"Save Failed", 'state' : False})
+
         serializer = self.get_serializer(data = request.data)
         if serializer.is_valid(raise_exception=True):
             print(request.user)
@@ -61,6 +77,21 @@ class PostCreateAPIView(CreateAPIView):
         if serializer.errors:
             print(serializer.errors)
         return Response(status=status.HTTP_201_CREATED, data = {'message':"post created"})
+
+def apply_preprocessing(sentence):
+    import re
+    '''
+    영어, 숫자, 한글(온전한 문자)을 제외한 나머지 제거
+    '''
+    result = ''.join(re.compile('[ㄱ-ㅎㅏ-ㅣ가-힣0-9a-zA-Z ]').\
+             findall(sentence)).strip()
+
+    result = data_split(result)
+    
+    result = vector.transform([result])
+
+    return result
+
 
 # class CommentCreateAPIView(CreateAPIView):
 #     queryset = Comment.objects.all()
