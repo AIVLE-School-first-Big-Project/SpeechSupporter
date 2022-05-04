@@ -1,5 +1,4 @@
 <html>
-
   <body>
     <div>
       <title>Streamer</title>
@@ -38,10 +37,9 @@
       ws.onopen = () => {
         console.log(`Connected to ${WS_URL}`);
         setInterval(() => {
-          ws.send(getFrame());
-        }, 1000 / FPS);
+          {% comment %} ws.send(getFrame());
+        }, 1000 / FPS); {% endcomment %}
       };
     </script>
   </body>
-
 </html>

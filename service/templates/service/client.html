@@ -1,11 +1,10 @@
 <html>
-
   <head>
     <title>Client</title>
   </head>
 
   <body>
-    <img src=""/>
+    <img src="" />
     <script>
       // get img dom element
       const img = document.querySelector("img");
@@ -16,9 +15,8 @@
 
       ws.onmessage = (message) => {
         // set the base64 string to the src tag of the image
-        img.src = JSON
-          .parse(message.data)
-          .message;
+        console.log(message);
+        {% comment %} img.src = JSON.parse(message.data).message; {% endcomment %}
       };
 
       ws.onclose = function (evt) {
@@ -26,5 +24,4 @@
       };
     </script>
   </body>
-
 </html>
