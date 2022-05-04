@@ -204,13 +204,16 @@ class VideoConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         # print(1)
         # Send message to room group
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'video_message',
-                'message': text_data,
-            }
-        )
+        text_data_json = json.loads(text_data)
+        eventType = text_data_json['type']
+        if eventType == 'video_message':
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'video_message',
+                    'message': text_data_json['message'],
+                }
+            )
 
     # Receive message from room group
     async def video_message(self):
