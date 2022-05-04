@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginPage.module.css';
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
-const url = 'http://localhost:8000/api/users/login/';
+const url = 'http://localhost:8000/api/token/';
 
 const LoginPage = () => {
     const [idInputState, setIdInputState] = useState(false);
@@ -27,10 +28,26 @@ const LoginPage = () => {
             password: passwordValue,
         };
         const loginState = await axios.post(url, loginData);
-        if (loginState.data['login-status']) {
-            const token = loginState.data.token;
-            navigation('/main', { state: { token } });
+
+        if (loginState.data.access) {
+            const access = loginState.data.access;
+            const refresh = loginState.data.refresh;
+            const decode = jwt_decode(access);
+            const userData = { email: decode.user_email };
+
+            localStorage.setItem('user', JSON.stringify(userData));
+            localStorage.setItem('access', access);
+            localStorage.setItem('refresh', refresh);
+
+            navigation('/aivle/main');
         }
+        //console.log(decode.user_email);
+
+        /*
+        if (loginState.data['login-status']) {
+            //navigation('/main', { state: { access, refresh } });
+        }
+
         if (loginState.data.message.non_field_errors[0] === 'user not found') {
             setIdNum(10);
             setState(true);
@@ -40,6 +57,7 @@ const LoginPage = () => {
             setState(true);
             return setMessage('비밀번호를 확인 해주세요!');
         }
+        */
     };
 
     const passwordValueChk = (event) => {
@@ -58,6 +76,17 @@ const LoginPage = () => {
         }
         setIdValue(event.target.value);
     };
+
+    const loginChk = () => {
+        const loginToken = localStorage.getItem('user');
+        if (loginToken) {
+            navigation('/aivle/main');
+        }
+    };
+
+    useEffect(() => {
+        loginChk();
+    }, []);
 
     return (
         <>

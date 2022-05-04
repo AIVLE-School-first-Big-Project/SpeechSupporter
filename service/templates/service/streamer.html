@@ -1,5 +1,4 @@
 <html>
-
   <body>
     <div>
       <title>Streamer</title>
@@ -10,13 +9,12 @@
       const video = document.querySelector("video");
 
       // request access to webcam
-      navigator
-        .mediaDevices
+      navigator.mediaDevices
         .getUserMedia({
           video: {
             width: 600,
-            height: 500
-          }
+            height: 500,
+          },
         })
         .then((stream) => (video.srcObject = stream));
 
@@ -25,9 +23,7 @@
         const canvas = document.createElement("canvas");
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
-        canvas
-          .getContext("2d")
-          .drawImage(video, 0, 0);
+        canvas.getContext("2d").drawImage(video, 0, 0);
         const data = canvas.toDataURL("image/png");
         return data;
       };
@@ -38,10 +34,14 @@
       ws.onopen = () => {
         console.log(`Connected to ${WS_URL}`);
         setInterval(() => {
-          ws.send(getFrame());
+          ws.send(
+            JSON.stringify({
+              type: "video_message",
+              message: getFrame(),
+            })
+          );
         }, 1000 / FPS);
       };
     </script>
   </body>
-
 </html>

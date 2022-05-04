@@ -19,13 +19,17 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework import status
 
+import joblib
+from .Data_preprocessing import *
+from sklearn.feature_extraction.text import TfidfVectorizer
+
 @csrf_exempt
 def post_create(request): # 글쓰기 - 내용, 제목
     # if request.method == "GET":
         # return HttpResponse("Login Plz")
     if request.method == "POST":
         data = JSONParser().parse(request)
-        
+        print(data)
         data['user'] = request.session.get('user')
         print(data)
         serializer = PostCreateSerializer(data=data)
@@ -49,10 +53,22 @@ def post_create(request): # 글쓰기 - 내용, 제목
 @permission_classes([IsAuthenticated])
 class PostCreateAPIView(CreateAPIView):
     queryset = Post.objects.all()
+    
+    global model
+    global vector
+
+    model = joblib.load('community/model/xgb.pkl') # 비속어 모델 소환
+    vector = joblib.load('community/model/vector.pkl') # 임베딩 모델 소환
+
     def get_queryset(self):
         return super().get_queryset().prefetch_related('tags', 'category')
     serializer_class = PostCreateSerializer
     def create(self, request, *args, **kwargs):
+        text = request.data['title'] + request.data['content']
+        text = apply_preprocessing(text) # 
+        y_pred = model.predict(text)
+        if y_pred == 1: return Response(status=status.HTTP_201_CREATED, data = {'message':"Save Failed", 'state' : False})
+
         serializer = self.get_serializer(data = request.data)
         if serializer.is_valid(raise_exception=True):
             print(request.user)
@@ -61,6 +77,21 @@ class PostCreateAPIView(CreateAPIView):
         if serializer.errors:
             print(serializer.errors)
         return Response(status=status.HTTP_201_CREATED, data = {'message':"post created"})
+
+def apply_preprocessing(sentence):
+    import re
+    '''
+    영어, 숫자, 한글(온전한 문자)을 제외한 나머지 제거
+    '''
+    result = ''.join(re.compile('[ㄱ-ㅎㅏ-ㅣ가-힣0-9a-zA-Z ]').\
+             findall(sentence)).strip()
+
+    result = data_split(result)
+    
+    result = vector.transform([result])
+
+    return result
+
 
 # class CommentCreateAPIView(CreateAPIView):
 #     queryset = Comment.objects.all()
@@ -111,9 +142,14 @@ class PostRetreiveAPIView(RetrieveAPIView):
     queryset = Post.objects.all()
 
     def retrieve(self, request, *args, **kwargs):
+        my_post = False
         instance = self.get_object()
         prevInstance, nextInstance = get_prev_next(instance)
         commentList = instance.comment_set.all()
+        if instance.user == request.user:
+            my_post = True
+
+        instance.my_post = my_post
 
         data = {
             'post' : instance,
@@ -201,3 +237,33 @@ class MyPostListAPIView(ListAPIView):
             return Response(data={'message':'아직 작성한 글이 없습니다.'})
 
         return Response(serializer.data)
+
+@permission_classes([IsAuthenticated])
+class PostModifyAPIView(UpdateAPIView): # 게시글 수정, 삭제하는 페이지
+    serializer_class = PostModifySerializer
+    def post(self, request): # 게시글 수정할 수 있는 페이지 - id 넘겨 주세요
+        posting = Post.objects.get(id = request.data['id'])
+        data = {
+            'content' : posting.content,
+            'title' : posting.title,
+            'id' : posting.id
+        }
+        serializer = self.get_serializer(instance=data) # 아이디와 내용과 제목을 드릴게요
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def update(self, request): # 사용자가 글 수정 화면에서 글 수정을 누를 때 - 아이디와 변경내용, 변경 제목을 주세요
+        title = request.data['title']
+        content = request.data['content']
+        user = Post.objects.get(id = request.data['id'])
+
+        user.title = title
+        user.content = content
+        user.save()
+
+        return Response({"message" : "Modify Success"}, status=status.HTTP_200_OK)
+    
+    def delete(self, request): # 사용자가 글 수정 화면에서 글 삭제을 누를 때 - 아이디만 주세여
+        user = Post.objects.get(id = request.data['id'])
+        user.delete()
+
+        return Response({"message" : "Remove Success"}, status=status.HTTP_200_OK)
