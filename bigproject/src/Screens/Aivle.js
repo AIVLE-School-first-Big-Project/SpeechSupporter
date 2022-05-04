@@ -5,22 +5,18 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import styles from './Aivle.module.css';
 import { drawKeypoints, drawSkeleton } from '../Utilites';
+import { publishRefreshToken } from '../Utiles/axios';
 
 const Aivle = () => {
     const cookies = new Cookies();
 
     const nav = useNavigate();
-    const location = useLocation();
 
     const setCookie = (name, value) => {
         return cookies.set(name, value);
     };
 
-    const userChk = () => {
-        if (!location.state) {
-            nav('/login');
-        }
-    };
+    publishRefreshToken();
 
     const [keypoints, setKeypoints] = useState([]);
     const webcamRef = useRef(null);
@@ -61,12 +57,9 @@ const Aivle = () => {
         drawSkeleton(pose['keypoints'], 0.7, ctx);
     };
 
-    useEffect(() => {
-        userChk();
-    }, []);
     return (
         <div className='container'>
-            <img className={styles.logo} src='aivle.png' />
+            <img className={styles.logo} src='../aivle.png' />
             <div className={styles.aivle__container}>
                 <div className={styles.total__container}>
                     <div className={styles.button__container}>

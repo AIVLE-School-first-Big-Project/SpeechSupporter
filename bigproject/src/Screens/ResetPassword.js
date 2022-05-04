@@ -58,7 +58,7 @@ const ResetPassword = () => {
                 <div className={styles.hole}></div>
                 <div className={styles.top}></div>
                 <div className={styles.logo_container}>
-                    <img className={styles.logo} src='aivle.png' unselectable='on' />
+                    <img className={styles.logo} src='../aivle.png' unselectable='on' />
                 </div>
                 <div className={styles.input__container}>
                     <div>

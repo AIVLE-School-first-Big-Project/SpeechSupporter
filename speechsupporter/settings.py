@@ -42,7 +42,7 @@ REST_FRAMEWORK = {
      ],
 	
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        #'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
@@ -66,7 +66,7 @@ JWT_AUTH = {
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
+    # 'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -95,11 +95,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'speechsupporter.urls'
 
-CHANNEL_LAYERS = {
-    'default':{ 
-        'BACKEND' : 'channels.layers.InMemoryChannelLayer'
-    }
-}
+# CHANNEL_LAYERS = {
+#     'default':{ 
+#         'BACKEND' : 'channels.layers.InMemoryChannelLayer'
+#     }
+# }
 
 TEMPLATES = [
     {
