@@ -1,47 +1,91 @@
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils_3d/control_utils_3d.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
   <body>
-    <div>
-      <title>Streamer</title>
-      <video autoplay="autoplay"></video>
+    <div class="container">
+      <video class="input_video"></video>
+      <canvas class="output_canvas" width="1280px" height="720px"></canvas>
+      <div class="landmark-grid-container"></div>
     </div>
-    <script>
-      // get video dom element
-      const video = document.querySelector("video");
-
-      // request access to webcam
-      navigator.mediaDevices
-        .getUserMedia({
-          video: {
-            width: 600,
-            height: 500,
-          },
-        })
-        .then((stream) => (video.srcObject = stream));
-
-      // returns a frame encoded in base64
-      const getFrame = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        canvas.getContext("2d").drawImage(video, 0, 0);
-        const data = canvas.toDataURL("image/png");
-        return data;
-      };
-
-      const WS_URL = `ws://${window.location.host}/ws/cam/`;
-      const FPS = 3;
-      const ws = new WebSocket(WS_URL);
-      ws.onopen = () => {
-        console.log(`Connected to ${WS_URL}`);
-        setInterval(() => {
-          ws.send(
-            JSON.stringify({
-              type: "video_message",
-              message: getFrame(),
-            })
-          );
-        }, 1000 / FPS);
-      };
-    </script>
   </body>
 </html>
+<script type="module">
+  const WS_URL = `ws://${window.location.host}/ws/cam/`;
+
+  const videoElement = document.getElementsByClassName("input_video")[0];
+  const canvasElement = document.getElementsByClassName("output_canvas")[0];
+  const canvasCtx = canvasElement.getContext("2d");
+  const landmarkContainer = document.getElementsByClassName(
+    "landmark-grid-container"
+  )[0];
+  const grid = new LandmarkGrid(landmarkContainer);
+  let asd = {};
+  function onResults(results) {
+    if (!results.poseLandmarks) {
+      grid.updateLandmarks([]);
+      return;
+    }
+
+    asd = { keypoints: results.poseLandmarks };
+  }
+
+  const pose = new Pose({
+    locateFile: (file) => {
+      return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
+    },
+  });
+  pose.setOptions({
+    modelComplexity: 1,
+    smoothLandmarks: true,
+    enableSegmentation: true,
+    smoothSegmentation: true,
+    minDetectionConfidence: 0.5,
+    minTrackingConfidence: 0.5,
+  });
+
+  pose.onResults(onResults);
+  const FPS = 3;
+  const ws = new WebSocket(WS_URL);
+  ws.onopen = () => {
+    setInterval(() => {
+      console.log("a");
+      ws.send(
+        JSON.stringify({
+          type: "video_message",
+          message: asd,
+        })
+      );
+    }, 1000);
+  };
+  const camera = new Camera(videoElement, {
+    onFrame: async () => {
+      await pose.send({ image: videoElement });
+    },
+    width: 1280,
+    height: 720,
+  });
+  camera.start();
+</script>

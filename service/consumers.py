@@ -1,5 +1,10 @@
+from email import message
 import json
 import pyaudio
+import pandas as pd
+import numpy as np
+from pymysql import NULL
+import tensorflow
 import json
 from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
 from asgiref.sync import async_to_sync
@@ -95,10 +100,46 @@ class VideoConsumer(AsyncWebsocketConsumer):
     async def video_message(self, event):
         # print(1)
         message = event['message']
+        
+        if len(message) == 0 :
+            return NULL
+        
+        model = tensorflow.keras.models.load_model("service\pose.h5")
+        
+# 데이터프레임 만들기 위한 준비
+        column=["nose_x", "nose_y", "left_eye_inner_x", "left_eye_inner_y", "left_eye_x", "left_eye_y", "left_eye_outer_x", "left_eye_outer_y",
+                "right_eye_inner_x", "right_eye_inner_y", "right_eye_x", "right_eye_y", "right_eye_outer_x", "right_eye_outer_y",
+                "left_ear_x", "left_ear_y", "right_ear_x", "right_ear_y", "mouth_left_x", "mouth_left_y", "mouth_right_x", "mouth_right_y",
+                "left_shoulder_x", "left_shoulder_y", "right_shoulder_x", "right_shoulder_y", "left_elbow_x", "left_elbow_y", "right_elbow_x", "right_elbow_y",
+                "left_wrist_x", "left_wrist_y", "right_wrist_x", "right_wrist_y", "left_pinky_x", "left_pinky_y", "right_pinky_x", "right_pinky_y",
+                "left_index_x", "left_index_y", "right_index_x", "right_index_y", "left_thumb_x", "left_thumb_y", "right_thumb_x", "right_thumb_y",
+                "left_hip_x", "left_hip_y", "right_hip_x", "right_hip_y", "left_knee_x", "left_knee_y", "right_knee_x", "right_knee_y",
+                "left_ankle_x", "left_ankle_y", "right_ankle_x", "right_ankle_y", "left_heel_x", "left_heel_y", "right_heel_x", "right_heel_y",
+                "left_foot_index_x", "left_foot_index_y", "right_foot_index_x", "right_foot_index_y"]
+        df1 = pd.DataFrame(columns=column)
+        
+        list_xy = []
+        
+        for i in range(len(message["keypoints"])):
+            list_xy.append(message["keypoints"][i]['x'])
+            list_xy.append(message["keypoints"][i]['y'])
 
-        # Send message to WebSocket
+        #list_xy를 데이터프레임으로 변환
+        df3 = pd.DataFrame(np.array([list_xy]), columns=column)
+        df1 = pd.concat([df1, df3], axis=0, ignore_index=True)
+        
+        print(list_xy)
+        
+        if model.predict(df3).argmax(axis=1)[0] == 0:    
+            print('head')
+        elif model.predict(df3).argmax(axis=1)[0] == 1:
+            
+            print('leg')
+        else:
+            print('sit')
+
         await self.send(text_data=json.dumps({
-            'message': message
+            'message': message["keypoints"]
         }))
 
     def 메인로직():
