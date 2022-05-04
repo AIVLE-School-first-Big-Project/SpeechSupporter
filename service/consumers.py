@@ -183,6 +183,7 @@ RATE = 16000
 # )
 
 class VideoConsumer(AsyncWebsocketConsumer):
+        
     async def connect(self):
         self.room_group_name = 'test'
         #print(self.room_name)
