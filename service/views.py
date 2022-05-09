@@ -1,13 +1,18 @@
-from typing import OrderedDict
+from collections import OrderedDict
+
 from django.shortcuts import render
 from django.http.response import StreamingHttpResponse
+
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import status
 from rest_framework.generics import CreateAPIView,ListAPIView
+from rest_framework.decorators import permission_classes
+
 from community.views import PostPageNumberPagination
 from service.models import Coaching
-
 from service.serializers import CoachingHistorySerializer
+
 from .camera import VideoCamera, LiveWebCam
 
 def lobby(request):
@@ -49,7 +54,7 @@ class CoachingHistoryPagination(PostPageNumberPagination):
             ('curPage', self.page.number),
         ]))
 
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 class CoachingHistoryView(CreateAPIView, ListAPIView):
     '''
     사용자의 코칭 내용에 대한 히스토리를 저장하고, 히스토리들을 불러옵니다.
