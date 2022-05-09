@@ -5,6 +5,9 @@ import json
 from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
 from asgiref.sync import async_to_sync
 import joblib
+import tensorflow
+import numpy as np
+import pandas as pd
 
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
