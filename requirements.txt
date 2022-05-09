@@ -21,6 +21,7 @@ djangorestframework==3.13.1
 djangorestframework-jwt==1.11.0
 djangorestframework-simplejwt==5.1.0
 executing==0.8.3
+mediapipe
 filter==0.0.0.20200724
 fonttools==4.33.3
 hyperlink==21.0.0
