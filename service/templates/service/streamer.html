@@ -22,6 +22,10 @@
       src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"
       crossorigin="anonymous"
     ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
 
   <body>
@@ -42,14 +46,15 @@
     "landmark-grid-container"
   )[0];
   const grid = new LandmarkGrid(landmarkContainer);
-  let asd = {};
-  function onResults(results) {
+  let pose1 = {};
+  let faceMesh1 = {};
+  async function onResults(results) {
     if (!results.poseLandmarks) {
       grid.updateLandmarks([]);
       return;
     }
-
-    asd = { keypoints: results.poseLandmarks };
+    pose1 = { keypoints: results.poseLandmarks };
+    faceMesh1 = { keypoints: results.multiFaceLandmarks };
   }
 
   const pose = new Pose({
@@ -57,25 +62,42 @@
       return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
     },
   });
+
+  const faceMesh = new FaceMesh({
+    locateFile: (file) => {
+      return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
+    },
+  });
+
   pose.setOptions({
-    modelComplexity: 1,
-    smoothLandmarks: true,
-    enableSegmentation: true,
-    smoothSegmentation: true,
+    modelComplexity: 0,
+
+    minDetectionConfidence: 0.3,
+    minTrackingConfidence: 0.3,
+  });
+
+  faceMesh.setOptions({
+    maxNumFaces: 1,
+    refineLandmarks: true,
     minDetectionConfidence: 0.5,
     minTrackingConfidence: 0.5,
   });
 
   pose.onResults(onResults);
+
+  faceMesh.onResults(onResults);
+
   const FPS = 3;
   const ws = new WebSocket(WS_URL);
   ws.onopen = () => {
-    setInterval(() => {
-      console.log("a");
-      ws.send(
+    setInterval(async () => {
+      console.log(pose1.keypoints[0]);
+      console.log(faceMesh1.keypoints);
+      await ws.send(
         JSON.stringify({
           type: "video_message",
-          message: asd,
+          pose_message: pose,
+          face_message: faceMesh,
         })
       );
     }, 1000);
@@ -83,6 +105,7 @@
   const camera = new Camera(videoElement, {
     onFrame: async () => {
       await pose.send({ image: videoElement });
+      await faceMesh.send({ image: videoElement });
     },
     width: 1280,
     height: 720,
