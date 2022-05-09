@@ -29,9 +29,14 @@ body {
 .navbar {
     display: inline-block;
     width: 100%;
+    padding-left: 29px;
 }
 .navbar div {
     float: right;
+}
+
+.navbar div:first-child {
+    margin-right: 48px;
 }
 .navbar ul {
     float: left;

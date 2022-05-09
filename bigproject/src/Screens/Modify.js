@@ -1,12 +1,12 @@
-import styles from './Register.module.css';
+import styles from './Modify.module.css';
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const BASE_URL = 'http://localhost:8000/api/users/register/';
 
-const Register = () => {
-    const [idValue, setIdValue] = useState('');
+const Modify = () => {
+    const [idValue, setIdValue] = useState('abcd@dcba.com');
     const [passwordValue, setPasswordValue] = useState('');
     const [password2Value, setPassword2Value] = useState('');
     const [imgForm, setImageForm] = useState([]);
@@ -25,12 +25,7 @@ const Register = () => {
     };
 
     const sendLoginData = async (password, password2) => {
-        if (password !== password2) {
-            return alert('비밀번호를 확인해주세요!');
-        }
-
         formData.append('nick_name', nickNameValue);
-        formData.append('password', passwordValue);
         formData.append('email', idValue);
         formData.append('wannabe', companyValue);
         formData.append('profile_img', imgForm);
@@ -51,21 +46,6 @@ const Register = () => {
         setImageForm(file[0]);
     };
 
-    const passwordValueChk = (event) => {
-        const value = event.target.value;
-        setPasswordValue(value);
-    };
-
-    const password2ValueChk = (event) => {
-        const value = event.target.value;
-        setPassword2Value(value);
-    };
-
-    const idValueChk = (event) => {
-        const value = event.target.value;
-        setIdValue(value);
-    };
-
     const nickNameValueChk = (event) => {
         const value = event.target.value;
         setnickNameValue(value);
@@ -76,16 +56,11 @@ const Register = () => {
         setCompanyValue(value);
     };
 
-    const loginChk = () => {
-        const loginToken = localStorage.getItem('user');
-        if (loginToken) {
-            navigation('/aivle/main');
-        }
+    const onChgPasswordBtnClicked = () => {
+        navigation('/modify_password');
     };
 
-    useEffect(() => {
-        loginChk();
-    }, []);
+    useEffect(() => {}, []);
 
     return (
         <div className={styles.container}>
@@ -111,24 +86,24 @@ const Register = () => {
                 </div>
             </div>
             <div className={styles.input__container}>
-                <h1>지 원 서</h1>
+                <h1>이직할까?</h1>
                 <div className={styles.upload__img__container}>
                     <img src={imgFile} />
                     <input type='file' accept='image/*' onChange={getImageFile} />
                 </div>
                 <div className={styles.form__container}>
                     <form method='post'>
-                        <label htmlFor='id'>아이디</label>
-                        <input placeholder='ID' type='email' id='id' required onChange={idValueChk} />
-                        <label htmlFor='password'>비밀번호</label>
-                        <input placeholder='Password' type='password' id='password' required onChange={passwordValueChk} />
-                        <label htmlFor='password2'>비밀번호 확인</label>
-                        <input placeholder='Password Confirm' type='password' id='password2' required onChange={password2ValueChk} />
+                        <label>아이디</label>
+                        <p>{idValue}</p>
+                        <label>비밀번호</label>
+                        <button type='button' onClick={onChgPasswordBtnClicked}>
+                            비밀번호 변경
+                        </button>
                         <label htmlFor='nickname'>Nickname</label>
                         <input placeholder='Nickname' type='text' id='nickname' required onChange={nickNameValueChk} />
                         <label htmlFor='company'>희망하는 기업</label>
                         <input placeholder='Nickname으로 사용됩니다' type='text' id='company' required onChange={companyValueChk} />
-                        <input type='submit' value='가입하기' onClick={handleJoininBtn} />
+                        <input type='submit' value='변경하기' onClick={handleJoininBtn} />
                     </form>
                 </div>
             </div>
@@ -136,4 +111,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default Modify;

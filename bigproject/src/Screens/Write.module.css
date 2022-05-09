@@ -1,4 +1,4 @@
-@import './reset.css';
+@import '../reset.css';
 @font-face {
     font-family: 'twayair';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twayair.woff') format('woff');
@@ -25,22 +25,33 @@ body {
     align-items: center;
 }
 
-.logo {
-    position: absolute;
-    width: 150px;
+.topbar__container {
+    width: 65vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topbar__container div {
+    display: flex;
+    justify-content: center;
+    width: 33%;
 }
 
 .navi {
-    width: 65vw;
-    height: 12vh;
+    width: 33%;
     display: flex;
     justify-content: right;
     align-items: center;
 }
 
 .navi .profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 30px;
     height: 30px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 50%;
     margin-right: 10px;
 }
@@ -139,7 +150,7 @@ body {
     height: 10vh;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .write_button button {

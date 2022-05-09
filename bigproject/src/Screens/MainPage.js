@@ -18,6 +18,7 @@ const MainPage = () => {
     const [nickNameValue, setNickNameValue] = useState('');
     const [companyValue, setCompanyValue] = useState('');
     const [imgSrc, setImgSrc] = useState(null);
+    const [profileImg, setProfileImg] = useState(null);
 
     const cookies = new Cookies();
 
@@ -32,9 +33,13 @@ const MainPage = () => {
 
         const { data } = await axios.get(BASE_URL, { headers: { Authorization: localStorage.getItem('access') } });
 
+        console.log(data.user);
+
         setIdValue(data.user.email);
         setNickNameValue(data.user['nick_name']);
         setCompanyValue(data.user.wannabe);
+        localStorage.setItem('nickname', data.user.nick_name);
+        localStorage.setItem('img', data.user.profile_img);
 
         const img = data.user['profile_img'];
 
@@ -69,7 +74,7 @@ const MainPage = () => {
         if (x <= window.screen.width * 0.3) {
             nav('/aivle/video');
         } else if (x >= window.screen.width * 0.3 + 200) {
-            nav('/community');
+            nav('/community/1');
         }
     };
 

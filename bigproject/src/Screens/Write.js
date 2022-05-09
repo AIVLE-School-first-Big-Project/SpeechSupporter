@@ -2,7 +2,7 @@ import axios from 'axios';
 import styles from './Write.module.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { publishRefreshToken } from './Utiles/axios';
+import { publishRefreshToken } from '../Utiles/axios';
 
 const url = 'http://localhost:8000/api/post/post/';
 
@@ -41,22 +41,27 @@ const Write = () => {
 
     const saveBtnClick = () => {
         sendPostData();
-        nav('/community');
+        nav('/community/1');
     };
 
     return (
         <div className={styles.container}>
-            <img src='aivle.png' className={styles.logo} />
-            <nav className={styles.navi}>
-                <img className={styles.profile} src='king.png' />
-                <h5 id='id'>아이디</h5>
-                <a href=''>
-                    <img src='google.png' />
-                </a>
-                <a href=''>
-                    <img src='google.png' />
-                </a>
-            </nav>
+            <div className={styles.topbar__container}>
+                <div></div>
+                <div>
+                    <img src='../aivle.png' className={styles.logo} />
+                </div>
+                <nav className={styles.navi}>
+                    <img className={styles.profile} src={`http://localhost:8000${localStorage.getItem('img')}`} />
+                    <h5 id='id'>{localStorage.getItem('nickname')}</h5>
+                    <a href=''>
+                        <img src='google.png' />
+                    </a>
+                    <a href=''>
+                        <img src='google.png' />
+                    </a>
+                </nav>
+            </div>
             <div className={styles.head}>
                 <span>글 쓰 기</span>
             </div>

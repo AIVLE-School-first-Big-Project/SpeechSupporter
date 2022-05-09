@@ -7,10 +7,15 @@ import PrivateRoute from './Utiles/PrivateRoute';
 import Register from './Screens/Register';
 import ResetPassword from './Screens/ResetPassword';
 import SendEmail from './Screens/SendEmail';
-import Community from './Community';
-import Board from './Board';
-import Modify from './Modify';
-import Write from './Write';
+import Community from './Screens/Community';
+import Board from './Screens/Board';
+import Modify from './Screens/Modify';
+import ModifyPost from './Screens/ModifyPost';
+import Write from './Screens/Write';
+import Modify_pwd from './Screens/Modify_pwd';
+import Questions from './Screens/Questions';
+import CreateList from './Components/CreateList';
+import Coaching from './Screens/Coaching';
 
 function App() {
     return (
@@ -27,27 +32,66 @@ function App() {
                     }
                 />
                 <Route path='aivle/video' element={<Aivle />} />
+                <Route path='/send_email' element={<SendEmail />} />
+                <Route path='/reset_password' element={<ResetPassword />} />
                 <Route
-                    path='aivle/send_email'
+                    path='/register'
                     element={
                         <PrivateRoute>
-                            <SendEmail />
+                            <Register />
                         </PrivateRoute>
                     }
                 />
                 <Route
-                    path='aivle/reset_password'
+                    path='/community/:page'
                     element={
                         <PrivateRoute>
-                            <ResetPassword />
+                            <Community />
                         </PrivateRoute>
                     }
                 />
-                <Route path='/register' element={<Register />} />
-                <Route path='/community' element={<Community />} />
-                <Route path='/write' element={<Write />} />
-                <Route path='/modify' element={<Modify />} />
-                <Route path='/board/:id' element={<Board />} />
+                <Route
+                    path='/write'
+                    element={
+                        <PrivateRoute>
+                            <Write />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path='/modify'
+                    element={
+                        <PrivateRoute>
+                            <Modify />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path='/modifypost/:id'
+                    element={
+                        <PrivateRoute>
+                            <ModifyPost />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path='/board/:id'
+                    element={
+                        <PrivateRoute>
+                            <Board />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path='/modify_password'
+                    element={
+                        <PrivateRoute>
+                            <Modify_pwd />
+                        </PrivateRoute>
+                    }
+                />
+                <Route path='/questions' element={<CreateList />} />
+                <Route path='/aivle/coaching' element={<Coaching />} />
             </Routes>
         </Router>
     );
