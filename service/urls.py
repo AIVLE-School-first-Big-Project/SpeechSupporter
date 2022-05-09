@@ -6,6 +6,5 @@ urlpatterns = [
     path('server/', views.lobby),
     path('client/', views.client),
     path('video_feed/', views.video_feed, name='video_feed'),
-    path('live_feed/', views.live_feed, name='live_feed'),
-    path('fuck/', views.fuck, name='fuck')
+    path('live_feed/', views.live_feed, name='live_feed')
 ]

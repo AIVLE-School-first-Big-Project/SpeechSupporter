@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
+
   <head>
-    <title>Video Live Stream</title>
+    <title>
+      Video Live Stream
+    </title>
     <style>
       .video {
         width: 500px;
@@ -11,14 +14,12 @@
   </head>
 
   <body>
-    <h1>Video Live Stream</h1>
+    <h1>
+      Video Live Stream
+    </h1>
     <!-- Creating 2 image tags -->
-    <img id="img" src="{% url 'video_feed' %}" />
-    {% comment %} <img src="{% url 'live_feed' %}" /> {% endcomment %}
+    <img src="{% url 'video_feed' %}">
+    <img src="{% url 'live_feed' %}">
   </body>
-  <script type="text/javascript">
-    const data = fetch("http://localhost:8000/service/fuck/");
-    const image = document.querySelector("#img");
-    console.log(image.src);
-  </script>
+
 </html>

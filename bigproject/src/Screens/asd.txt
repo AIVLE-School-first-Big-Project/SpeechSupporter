@@ -1,0 +1,52 @@
+
+    const [keypoints, setKeypoints] = useState({});
+    const { error, interimResult, isRecording, results, startSpeechToText, stopSpeechToText } = useSpeechToText({
+        continuous: true,
+        crossBrowser: true,
+        googleApiKey: 'a9a910fb463616fb07ec69873756cb11e119215a',
+        useLegacyResults: false,
+    });
+
+    const videoElement = useRef(null);
+    const WS_URL = `ws://localhost:8000/ws/cam/`;
+    const ws = new WebSocket(WS_URL);
+    pose.setOptions({
+        modelComplexity: 0,
+        minDetectionConfidence: 0.3,
+        minTrackingConfidence: 0.3,
+    });
+    async function onResults(results) {
+        if (!results.poseLandmarks) {
+            return;
+        }
+        setKeypoints({ keypoints: results.poseLandmarks });
+    }
+    pose.onResults(onResults);
+    useEffect(() => {
+        ws.onopen = () => {
+            setInterval(async () => {
+                console.log(keypoints);
+                await ws.send(
+                    JSON.stringify({
+                        type: 'video_message',
+                        message: keypoints,
+                    })
+                );
+            }, 1000);
+        };
+    }, [keypoints]);
+
+    useEffect(() => {
+        if (videoElement) {
+            const camera = new Camera(videoElement.current, {
+                onFrame: async () => {
+                    await pose.send({ image: videoElement.current });
+                },
+                width: 1280,
+                height: 720,
+            });
+            camera.start();
+        }
+    }, [videoElement]);
+
+    if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>;

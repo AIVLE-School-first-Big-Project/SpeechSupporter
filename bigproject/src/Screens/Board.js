@@ -1,60 +1,19 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styles from './Board.module.css';
 import axios from 'axios';
-import { publishRefreshToken } from './Utiles/axios';
-
-const data = [
-    {
-        id: 15,
-        user: '소연 이',
-        title: '게시글 작성 test',
-        category: null,
-        content:
-            '게시글 작성 test 중 입니다. 게시글을 길게 작성해봅시다. 지금부터는 복붙/n 게시글 작성 test 중 입니다. 게시글을 길게 작성해봅시다. 지금부터는 복붙/n게시글 작성 test 중 입니다. 게시글을 길게 작성해봅시다. 지금부터는 복붙/n게시글 작성 test 중 입니다. 게시글을 길게 작성해봅시다. 지금부터는 복붙/n게시글 작성 test 중 입니다. 게시글을 길게 작성해봅시다. 지금부터는 복붙/n',
-        create_dt: '2022-04-19T21:21:11.541097+09:00',
-        like: 15,
-        view_count: 2,
-        comment: '일단 댓글 작성해봅니다',
-    },
-    {
-        id: 16,
-        user: 'Soyeon Lee',
-        title: '게시글 작성 test 2',
-        category: null,
-        content: '게시글 작성 test 2 중 입니다.',
-        create_dt: '2022-04-21T21:21:11.541097+09:00',
-        like: 131,
-        view_count: 256,
-    },
-];
-
-const dat = [
-    {
-        id: 15,
-        user: '밍밍밍',
-        comment: '댓글 작성 test 중 입니다.',
-        create_dt: '2022-04-19T21:21:11.541097+09:00',
-    },
-    {
-        id: 16,
-        user: '홍홍홍',
-        comment: '댓글 작성 test 2 중 입니다.',
-        create_dt: '2022-04-21T21:21:11.541097+09:00',
-    },
-];
-const pagecnt = 10;
-const curpage = 1;
+import { publishRefreshToken } from '../Utiles/axios';
 
 const Board = () => {
     const { id } = useParams();
-    const [data_com, setData] = useState([]);
     const [like, setLike] = useState(0);
     const [likeState, setLikeState] = useState(false);
     const [detail, setDetail] = useState([]);
     const [loading, setLoading] = useState(false);
     const [authorCheck, setAuthorCheck] = useState(false);
     const [comments, setComments] = useState('');
+
+    const nav = useNavigate();
 
     const getDetailData = async () => {
         const detail = await axios.get(`http://localhost:8000/api/post/${id}/`);
@@ -92,9 +51,21 @@ const Board = () => {
         );
         window.location.reload();
     };
+    const deleteClicked = async () => {
+        const a = {
+            data: { id },
+        };
+        const headers = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('access')}`,
+                'Content-Type': 'application/json',
+            },
+        };
+        const data = await axios.delete('http://localhost:8000/api/post/delete/', a, headers);
 
+        nav('/community/1');
+    };
     useEffect(() => {
-        setData(dat);
         getDetailData();
     }, []);
 
@@ -111,10 +82,12 @@ const Board = () => {
                                 <>
                                     <ul>
                                         <li>
-                                            <a href='#'>수정</a>
+                                            <a href={`/modifypost/${detail.data.post.id}`}>수정</a>
                                         </li>
                                         <li>
-                                            <a href='#'>삭제</a>
+                                            <a href='#' onClick={deleteClicked}>
+                                                삭제
+                                            </a>
                                         </li>
                                         <li>
                                             <a href={detail.data.prevPost === null ? '#' : `/board/${detail.data.prevPost.id}`}>이전글</a>
@@ -131,16 +104,17 @@ const Board = () => {
                                 </>
                             )}
                             <div>
-                                <a href={detail.data.nextPost === null ? '#' : `/board/${detail.data.nextPost.id}`}>다음글</a>
-                            </div>
-                            <div>
-                                <a href='/community'>목록</a>
+                                <div>
+                                    <a href={detail.data.nextPost === null ? '#' : `/board/${detail.data.nextPost.id}`}>다음글</a>
+                                </div>
+                                <div>
+                                    <a href='/community/1'>목록</a>
+                                </div>
                             </div>
                         </div>
                         <div className={styles.ArticleContentBox}>
                             <div className={styles.article_header}>
                                 <div className={styles.ArticleTitle}>
-                                    <a className={styles.link_board}>전체 글 보기</a>
                                     <h3 className={styles.title_text}>{detail.data.post['title']}</h3>
                                 </div>
                                 <ul className={styles.WriterInfo}>
@@ -255,33 +229,6 @@ const Board = () => {
                                         </div>
                                     </div>
                                     <div className='comment_attach'></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={styles.ArticleBottomBtns}>
-                            <div className={styles.navbar_2}>
-                                <ul>
-                                    <li>
-                                        <a href='#' role='button' className={styles.BaseButton}>
-                                            <span className={styles.BaseButton__txt}>글쓰기</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href='#' role='button' className='BaseButton'>
-                                            <span className='BaseButton__txt'>수정</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href='#' role='button' className='BaseButton'>
-                                            <span className='BaseButton__txt'>삭제</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div>
-                                    <a href='#'>목록</a>
-                                </div>
-                                <div>
-                                    <a href='#'>TOP</a>
                                 </div>
                             </div>
                         </div>

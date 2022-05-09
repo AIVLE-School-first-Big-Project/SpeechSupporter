@@ -13,11 +13,9 @@
       const ws = new WebSocket(WS_URL);
       ws.onopen = () => console.log(`Connected to ${WS_URL}`);
 
-      ws.onmessage = (pose_message, face_message) => {
+      ws.onmessage = (message) => {
         // set the base64 string to the src tag of the image
-        {% comment %} img.src = JSON.parse(message.data).message; {% endcomment %}
-        console.log(pose_message);
-        console.log(face_message);
+        img.src = JSON.parse(message.data).message;
       };
 
       ws.onclose = function (evt) {
