@@ -66,7 +66,7 @@ JWT_AUTH = {
 # Application definition
 
 INSTALLED_APPS = [
-    # 'channels',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -95,11 +95,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'speechsupporter.urls'
 
-# CHANNEL_LAYERS = {
-#     'default':{ 
-#         'BACKEND' : 'channels.layers.InMemoryChannelLayer'
-#     }
-# }
+CHANNEL_LAYERS = {
+    'default':{ 
+        'BACKEND' : 'channels.layers.InMemoryChannelLayer'
+    }
+}
 
 TEMPLATES = [
     {
@@ -134,9 +134,9 @@ WSGI_APPLICATION = 'speechsupporter.wsgi.application'
 DATABASES = {
     'default' : {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME' : 'big_speechsupporter',
+        'NAME' : 'speech',
         'USER': 'root', 
-        'PASSWORD': 'bestforall1!', 
+        'PASSWORD': 'aivle', 
         'HOST': 'localhost', 
         'PORT': '3306', 
     }
