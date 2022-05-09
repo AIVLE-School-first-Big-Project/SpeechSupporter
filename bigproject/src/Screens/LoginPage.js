@@ -158,14 +158,10 @@ const LoginPage = () => {
             )}
           </div>
           <a href="/register" className={styles.regist__container}>
-            {/* <a href="/register"> */}
             <span className={styles.span}>입사하기</span>
-            {/* </a> */}
           </a>
-          <a href="/send_email" className={styles.link__container}>
-            {/* <a href="/send_email"> */}
+          <a href="aivle/send_email" className={styles.link__container}>
             <span className={styles.span}>비밀번호 초기화</span>
-            {/* </a> */}
           </a>
         </div>
       </div>

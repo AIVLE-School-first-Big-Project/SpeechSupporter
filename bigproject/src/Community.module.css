@@ -16,7 +16,7 @@
 }
 
 body {
-  background-color: rgb(248, 250, 252);
+  background-color: #96b3fe;
 }
 
 .container {
@@ -25,6 +25,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* background-color: #96b3fe; */
 }
 
 .topbar__container {
@@ -40,6 +41,10 @@ body {
   width: 33%;
 }
 
+.logo {
+  width: 100px;
+}
+
 .navigator {
   width: 33%;
   display: flex;
@@ -48,8 +53,8 @@ body {
 }
 
 .navigator .profile {
-  width: 20px;
-  height: 20px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   margin-right: 10px;
 }
@@ -57,11 +62,12 @@ body {
 .navigator h5 {
   margin-right: 10px;
   font-family: "GmarketSansMedium";
+  font-size: 20px;
 }
 
 .navigator a img {
-  width: 18px;
-  height: 18px;
+  width: 30px;
+  height: 30px;
   margin-right: 10px;
 }
 

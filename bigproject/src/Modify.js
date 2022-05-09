@@ -85,7 +85,7 @@ const Modify = () => {
           <div className={styles.top}></div>
           <div className={styles.hole}></div>
           <div className={styles.logo_container}>
-            <img className={styles.logo} src="aivle.png" />
+            <img className={styles.logo} src="aivle5.png" />
           </div>
           <div className={styles.img__container}>
             <img src={imgFile} />
