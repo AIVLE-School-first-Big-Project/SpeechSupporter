@@ -134,9 +134,9 @@ WSGI_APPLICATION = 'speechsupporter.wsgi.application'
 DATABASES = {
     'default' : {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME' : 'speech',
+        'NAME' : 'big_speechsupporter',
         'USER': 'root', 
-        'PASSWORD': 'aivle', 
+        'PASSWORD': 'bestforall1!', 
         'HOST': 'localhost', 
         'PORT': '3306', 
     }
