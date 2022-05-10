@@ -34,7 +34,6 @@ joblib==1.1.0
 kiwisolver==1.4.2
 matplotlib==3.5.1
 matplotlib-inline==0.1.3
-mediapipe @ file:///Users/wonjae/Downloads/mediapipe-0.8.9.1-cp39-cp39-macosx_12_0_arm64.whl
 mysqlclient==2.1.0
 numpy==1.22.3
 opencv-contrib-python==4.5.5.64
@@ -49,7 +48,6 @@ ptyprocess==0.7.0
 pure-eval==0.2.2
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
-PyAudio==0.2.11
 pycparser==2.21
 Pygments==2.11.2
 PyJWT==1.7.1
