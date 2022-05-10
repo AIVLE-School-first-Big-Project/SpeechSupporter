@@ -1,8 +1,18 @@
 # SpeechSupporter
 
-
-
-[TOC]
+- [**실행 방법**](#---------)
+  * [**1.가상환경 설정**](#--1---------)
+  * [2. Node.js 설치](#2-nodejs---)
+  * [3. Requiremetns](#3-requiremetns)
+  * [4. 실행](#4---)
+- [서비스 소개](#------)
+  * [주제 : 취준생을 위한 면접 도우미 (AIVLE)](#---------------------aivle-)
+- [팀원 소개](#-----)
+- [API 정의서](#api----)
+- [개발 환경](#-----)
+    + [Page-rendering](#page-rendering)
+    + [Back-end, Front-end Framework](#back-end--front-end-framework)
+    + [Modeling](#modeling)
 
 ## **실행 방법**
 
@@ -28,7 +38,7 @@ python manage.py runserver
 
 팀 노션 채널 : https://www.notion.so/Speech-Supporter-acad91ff7be8415db9c44d331c43fa04
 
-![image-20220510112016830](/Users/wonjae/Library/Application Support/typora-user-images/image-20220510112016830.png)
+<img width="804" alt="image" src="https://user-images.githubusercontent.com/64791173/167541209-6c2039c3-76e7-42f8-a455-00c345981653.png">
 
 
 
@@ -46,15 +56,15 @@ python manage.py runserver
 
 ## 팀원 소개
 
-<img src="/Users/wonjae/Library/Application Support/typora-user-images/image-20220510112226330.png" alt="image-20220510112226330" style="zoom:50%;" />
+<img width="550" alt="image" src="https://user-images.githubusercontent.com/64791173/167541359-a40eaad8-9404-4725-a69c-1c0ffc317879.png">
 
 
 
 ## API 정의서
 
-![image-20220510112732439](/Users/wonjae/Library/Application Support/typora-user-images/image-20220510112732439.png)
+<img width="1011" alt="image" src="https://user-images.githubusercontent.com/64791173/167541455-8a22c21c-1f16-4a3c-a247-f8b37b346d97.png">
 
-![image-20220510112918594](/Users/wonjae/Library/Application Support/typora-user-images/image-20220510112918594.png)
+<img width="1164" alt="image" src="https://user-images.githubusercontent.com/64791173/167541543-b5ac830f-d800-4105-b70c-72771198f8b9.png">
 
 ## 개발 환경
 
