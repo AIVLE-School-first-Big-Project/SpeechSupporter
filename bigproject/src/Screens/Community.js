@@ -17,6 +17,7 @@ const Community = () => {
     const [curPage, setCurPage] = useState();
     const [pageCnt, setPageCnt] = useState();
     const [defaultPage, setDefaultPage] = useState([]);
+    const [seachValue, setSearchValue] = useState();
 
     const nav = useNavigate();
 
@@ -94,6 +95,20 @@ const Community = () => {
         }
     };
 
+    const getSearchData = async () => {
+        const { data } = await axios(`http://localhost:8000/api/post/postlist/?title=${seachValue}`);
+    };
+
+    const handleSearch = (e) => {
+        const value = e.target.value;
+        setSearchValue(value);
+    };
+
+    const handleOnClick = (e) => {
+        e.preventDefault();
+        getSearchData();
+    };
+
     const handleLeftBtn = () => {
         if (defaultPage[0] != 1) {
             nav(`/community/${defaultPage[0] - 10}`);
@@ -142,7 +157,8 @@ const Community = () => {
                     <a href='http://localhost:3000/main'>메인으로</a>
                 </div>
                 <div className={styles.search}>
-                    <input placeholder='검색' />
+                    <input type='text' placeholder='검색' onChange={handleSearch} />
+                    <button onClick={handleOnClick}>검색</button>
                 </div>
             </nav>
             <div className={styles.post_title}>

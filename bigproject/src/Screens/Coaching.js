@@ -69,7 +69,6 @@ const Coaching = () => {
             ws.onmessage = async (evt) => {
                 {
                     const data = JSON.parse(evt.data);
-                    console.log(data);
                     setItems((prevItems) => [...prevItems, data]);
                 }
             };
@@ -92,18 +91,18 @@ const Coaching = () => {
     }, [videoElement]);
 
     useEffect(() => {
-        if (result !== null && numOfQuestions !== length - 1) {
+        if (result.length !== 0 && numOfQuestions !== length - 1) {
             setNumOfQuestions((prev) => {
                 return prev + 1;
             });
         }
+        console.log(result);
     }, [result]);
 
     useEffect(() => {
+        console.log(numOfQuestions);
         setData(state.data.data[numOfQuestions]);
     }, [numOfQuestions]);
-
-    console.log(result);
 
     return (
         <>

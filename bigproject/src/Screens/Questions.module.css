@@ -1,7 +1,227 @@
+body {
+  position: relative;
+  -webkit-text-size-adjust: none;
+  font-weight: 400;
+  font-family: Apple SD Gothic Neo, 맑은 고딕, Malgun Gothic, 돋움, dotum,
+    sans-serif;
+  background-color: #96b3fe;
+  color: var(--skinTextColor);
+}
+
 .hidden {
-    display: none;
+  display: none;
 }
 
 .span {
-    display: inline;
+  display: inline;
+}
+
+.container {
+  width: 100vw;
+  height: 13vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.topbar__container {
+  width: 65vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topbar__container div {
+  display: flex;
+  justify-content: center;
+  width: 33%;
+}
+
+.logo {
+  width: 100px;
+}
+
+.navigator {
+  width: 33%;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.navigator .profile {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.navigator h5 {
+  margin-right: 10px;
+  font-family: "GmarketSansMedium";
+  font-size: 20px;
+}
+
+.navigator a img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.QuestionContentBox {
+  -webkit-text-size-adjust: none;
+  color: #25282b;
+  overflow-wrap: break-word;
+  text-rendering: optimizeLegibility;
+  font-family: NanumSquare;
+  font-size: 13px;
+  font-style: normal;
+  line-height: 135%;
+  box-sizing: border-box;
+  user-select: none;
+  position: absolute;
+  top: 650%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.QuestionListBox {
+  -webkit-text-size-adjust: none;
+  color: #25282b;
+  overflow-wrap: break-word;
+  text-rendering: optimizeLegibility;
+  font-family: NanumSquare;
+  font-size: 13px;
+  font-style: normal;
+  line-height: 135%;
+  box-sizing: border-box;
+  user-select: none;
+  position: relative;
+  margin-top: -400px;
+  margin-bottom: 49px;
+  padding: 44px 54px 54px;
+  width: 942px;
+  height: 413px;
+  background: rgb(255, 255, 255);
+  border-radius: 5px;
+}
+
+.QuestionBox {
+  -webkit-text-size-adjust: none;
+  color: #25282b;
+  overflow-wrap: break-word;
+  text-rendering: optimizeLegibility;
+  font-family: NanumSquare;
+  font-size: 13px;
+  font-style: normal;
+  line-height: 135%;
+  box-sizing: border-box;
+  user-select: none;
+  width: 834px;
+}
+
+.cutBox_1 {
+  height: 290px;
+}
+.cutBox_2 {
+  margin-top: 0px;
+  margin-left: 0px;
+}
+
+.Question {
+  border-radius: 2px;
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+  background-color: rgb(239, 239, 239);
+  -webkit-text-size-adjust: none;
+  color: #25282b;
+  overflow-wrap: break-word;
+  text-rendering: optimizeLegibility;
+  font-family: NanumSquare;
+  font-size: 13px;
+  font-style: normal;
+  line-height: 135%;
+  box-sizing: border-box;
+  user-select: none;
+  margin-top: 10px;
+  padding: 7px 7px 7px 7px;
+}
+
+.Question button {
+  border-radius: 2px;
+  border: none;
+  background-color: #989898;
+  text-decoration: aliceblue;
+  color: rgb(255, 255, 255);
+}
+
+.Question button:hover {
+  background: #747474;
+}
+
+.Question_question {
+  padding: 0px 18px 0px 0px;
+}
+
+.Question_question input {
+  border: none;
+  background: rgb(245, 245, 245);
+}
+
+.Question_question input:focus {
+  outline: 1px solid #686868;
+}
+
+.comment_inbox_question {
+  width: 20vw;
+  border: none;
+}
+.comment_inbox_answer {
+  width: 25vw;
+  border: none;
+}
+.comment_inbox_time {
+  width: 5vw;
+  border: none;
+}
+
+.Button_area {
+  -webkit-text-size-adjust: none;
+  color: #25282b;
+  overflow-wrap: break-word;
+  text-rendering: optimizeLegibility;
+  font-family: NanumSquare;
+  font-size: 13px;
+  font-style: normal;
+  line-height: 135%;
+  box-sizing: border-box;
+  user-select: none;
+  text-align: center;
+}
+
+.goTo_button {
+  -webkit-text-size-adjust: none;
+  overflow-wrap: break-word;
+  text-align: center;
+  text-rendering: optimizeLegibility;
+  font-family: NanumSquare;
+  font-style: normal;
+  line-height: 135%;
+  box-sizing: border-box;
+  user-select: none;
+  border-radius: 2px;
+  transition: background 0.3s ease-in-out 0s, border 0.3s ease-in-out 0s;
+  display: inline-block;
+  background: rgb(10, 43, 58);
+  padding: 15px 40px;
+  font-size: 18px;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  border-radius: 3px;
+  border: none;
+}
+
+.goTo_button:hover {
+  background: rgb(0, 0, 0);
 }
