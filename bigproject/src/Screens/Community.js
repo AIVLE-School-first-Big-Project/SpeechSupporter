@@ -1,21 +1,12 @@
 import { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import styles from "./Community.module.css";
 import axios from "axios";
-import { publishRefreshToken } from "./Utiles/axios";
+import { publishRefreshToken } from "../Utiles/axios";
 
 const BASE_URL = "http://localhost:8000/api/";
 
-const page_num = (tot) => {
-  let page_num = [];
-  if (tot < 10) {
-    for (let k = 1; k < tot + 1; k++) {
-      page_num.push(k);
-    }
-  } else {
-    page_num = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  }
-  return page_num;
-};
+let ordered = "time";
 
 const Community = () => {
   const [idValue, setIdValue] = useState("");
@@ -25,11 +16,39 @@ const Community = () => {
   const [postList, setPostList] = useState([]);
   const [curPage, setCurPage] = useState();
   const [pageCnt, setPageCnt] = useState();
-  const [pagelist, setPagelist] = useState([]);
-  // 검색어
+  const [defaultPage, setDefaultPage] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
-  let p = [];
+  const nav = useNavigate();
+
+  const params = useParams();
+  const orderd = useLocation();
+
+  const settingPage = () => {
+    let newPage = [];
+
+    if (pageCnt <= 10) {
+      for (let i = 1; i < pageCnt + 1; i++) {
+        newPage.push(i);
+      }
+      setDefaultPage(newPage);
+    } else {
+      const tmp = parseInt((curPage - 1) / 10);
+      const div = parseInt((pageCnt - 1) / 10);
+      const mod = 10 - parseInt(pageCnt % 10);
+      if (div === tmp) {
+        for (let i = tmp * 10 + 1; i < (tmp + 1) * 10 + 1 - mod; i++) {
+          newPage.push(i);
+        }
+      } else {
+        for (let i = tmp * 10 + 1; i < (tmp + 1) * 10 + 1; i++) {
+          newPage.push(i);
+        }
+      }
+
+      setDefaultPage(newPage);
+    }
+  };
 
   const getUserData = async () => {
     publishRefreshToken();
@@ -53,79 +72,94 @@ const Community = () => {
     });
   };
 
-  // 검색어 전달해주고 결과 받기
-  const searchValueChk = (event) => {
-    const value = event.target.value;
-    setSearchValue(value);
+  const getPostData = async (ordered) => {
+    publishRefreshToken();
+    if (ordered === "like") {
+      const data = await axios.get(
+        BASE_URL + `post/postlist/?page=${params.page}?ordering=like`
+      );
+      setPostList(data.data.postList);
+      setCurPage(data.data.curPage);
+      setPageCnt(data.data.pageCnt);
+      settingPage();
+    } else if (ordered === "view") {
+      const data = await axios.get(
+        BASE_URL + `post/postlist/?page=${params.page}?ordering=view_count`
+      );
+      setPostList(data.data.postList);
+      setCurPage(data.data.curPage);
+      setPageCnt(data.data.pageCnt);
+      settingPage();
+    } else {
+      const data = await axios.get(
+        BASE_URL + `post/postlist/?page=${params.page}`
+      );
+      setPostList(data.data.postList);
+      setCurPage(data.data.curPage);
+      setPageCnt(data.data.pageCnt);
+      settingPage();
+    }
   };
 
   const getSearchData = async () => {
-    const data = await axios.get(BASE_URL + "post/postlist/" + searchValue);
-
-    setPostList(data.data.fields);
-  };
-
-  // 여기까지
-
-  const getPostData = async () => {
     publishRefreshToken();
-
-    const data = await axios.get(BASE_URL + "post/postlist/");
-
-    setPostList(data.data.postList);
-    setCurPage(data.data.curPage);
-    setPageCnt(data.data.pageCnt);
-    setPagelist(page_num(data.data.pageCnt));
+    const { data } = await axios.get(
+      `http://localhost:8000/api/post/postlist/?title=${searchValue}`
+    );
+    setPostList(data.postList);
+    setCurPage(data.curPage);
+    setPageCnt(data.pageCnt);
+    settingPage();
   };
 
-  const leftbtn_appear = () => {
-    if (pagelist[0] != 1) {
-      return <button onClick={left_btn}>◀</button>;
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchValue(value);
+  };
+
+  const handleOnClick = (e) => {
+    e.preventDefault();
+    getSearchData();
+  };
+
+  const handleLeftBtn = () => {
+    if (defaultPage[0] != 1) {
+      nav(`/community/${defaultPage[0] - 10}`);
+      window.location.reload();
     }
   };
 
-  const rightbtn_appear = () => {
-    if (pagelist[pagelist.length - 1] < { pageCnt }) {
-      return <button onClick={right_btn}>▶</button>;
+  const handleRightBtn = () => {
+    if (defaultPage[defaultPage.length - 1] < pageCnt) {
+      nav(`/community/${defaultPage[0] + 10}`);
+      window.location.reload();
     }
   };
 
-  const right_btn = () => {
-    let index_of_totpage = 10;
-    for (let i = 0; i < 10; i++) {
-      p[i] = pagelist[0] + 10 + i;
-      if (p[i] == { pageCnt }) {
-        index_of_totpage = i;
-      }
-    }
-    p = p.slice(0, index_of_totpage + 1);
-    setPagelist(p);
-  };
-
-  const left_btn = () => {
-    for (let i = 0; i < 10; i++) {
-      p[i] = pagelist[0] - 10 + i;
-    }
-    setPagelist(p);
+  const handleLogoutBtn = () => {
+    localStorage.clear();
   };
 
   useEffect(() => {
     getUserData();
-    getPostData();
-  }, []);
+    getPostData(orderd);
+  }, [pageCnt]);
 
   return (
     <div className={styles.container}>
       <div className={styles.topbar__container}>
         <div></div>
         <div>
-          <img src="aivle5.png" className={styles.logo} />
+          <img src="../aivle5.png" className={styles.logo} />
         </div>
         <nav className={styles.navigator}>
           <img className={styles.profile} src={imgSrc} />
           <h5 id="id">{nickNameValue}</h5>
           <a href="http://localhost:3000/modify">
             <img src="http://bens1.img12.kr/2021_m_category_renewal/m_icon_mypage.png" />
+          </a>
+          <a href="" onClick={handleLogoutBtn}>
+            로그아웃
           </a>
         </nav>
       </div>
@@ -136,12 +170,8 @@ const Community = () => {
           <a href="http://localhost:3000/main">메인으로</a>
         </div>
         <div className={styles.search}>
-          <input
-            placeholder="검색"
-            type="text"
-            id="search"
-            onChange={searchValueChk}
-          />
+          <input type="text" placeholder="검색" onChange={handleSearch} />
+          <button onClick={handleOnClick}>검색</button>
         </div>
       </nav>
       <div className={styles.post_title}>
@@ -182,30 +212,57 @@ const Community = () => {
         </div>
         <div className={styles.page__conatainer}>
           <div className={styles.page}>
-            {leftbtn_appear()}
-            {pagelist.map((num) => {
+            <button onClick={handleLeftBtn}>◀️</button>
+            {defaultPage.map((page) => {
               return (
-                <a
-                  href="http://localhost:3000/community"
-                  id={num}
-                  className={
-                    num == curPage ? styles.selected_page : styles.not_curpage
-                  }
-                >
-                  {num}
-                </a>
+                <div className={styles.pagination__container}>
+                  <a
+                    className={
+                      page == params.page
+                        ? styles.selected_page
+                        : styles.pagination
+                    }
+                    href=""
+                    onClick={() => {
+                      nav(`/community/${page}`, { state: ordered });
+                    }}
+                  >
+                    {page}
+                  </a>
+                </div>
               );
             })}
-            {rightbtn_appear()}
+            <button onClick={handleRightBtn}>▶️</button>
           </div>
         </div>
         <div className={styles.sort__conatainer}>
           <div className={styles.sort}>
-            <input type="radio" name="sort" id="sort_date" defaultChecked />
+            <input
+              type="radio"
+              name="sort"
+              id="sort_date"
+              onClick={() => {
+                ordered = "time";
+              }}
+            />
             <label htmlFor="sort_date">최신순</label>
-            <input type="radio" name="sort" id="sort_like" />
+            <input
+              type="radio"
+              name="sort"
+              id="sort_like"
+              onClick={() => {
+                ordered = "like";
+              }}
+            />
             <label htmlFor="sort_like">좋아요순</label>
-            <input type="radio" name="sort" id="sort_view" />
+            <input
+              type="radio"
+              name="sort"
+              id="sort_view"
+              onClick={() => {
+                orderd = "view";
+              }}
+            />
             <label htmlFor="sort_view">조회순</label>
           </div>
         </div>

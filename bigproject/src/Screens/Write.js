@@ -2,7 +2,7 @@ import axios from "axios";
 import styles from "./Write.module.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { publishRefreshToken } from "./Utiles/axios";
+import { publishRefreshToken } from "../Utiles/axios";
 
 const BASE_URL = "http://localhost:8000/api/";
 const url = "http://localhost:8000/api/post/post/";

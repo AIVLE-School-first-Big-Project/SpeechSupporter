@@ -2,27 +2,26 @@ import styles from "./Modify.module.css";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { publishRefreshToken } from "./Utiles/axios";
+import { publishRefreshToken } from "../Utiles/axios";
 
 const BASE_URL = "http://localhost:8000/api/";
 
 const Modify = () => {
   const [idValue, setIdValue] = useState("abcd@dcba.com");
-  const [imgSrc, setImgSrc] = useState(null);
+  const [imgSrc, setImgSrc] = useState(
+    "https://images-ext-2.discordapp.net/external/RwTCihXk-8XznIG1dqikm3s5sffzfnXvWAKVvWhZsH4/https/cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png?width=936&height=936"
+  );
   const [passwordValue, setPasswordValue] = useState("");
   const [password2Value, setPassword2Value] = useState("");
   const [imgForm, setImageForm] = useState([]);
   const [nickNameValue, setNickNameValue] = useState("");
   const [companyValue, setCompanyValue] = useState("");
-  const [imgFile, setImageFile] = useState(
-    "https://images-ext-2.discordapp.net/external/RwTCihXk-8XznIG1dqikm3s5sffzfnXvWAKVvWhZsH4/https/cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png?width=936&height=936"
-  );
 
   const getUserData = async () => {
     publishRefreshToken();
 
     const { data } = await axios.get(BASE_URL + "users/user/", {
-      headers: { Authorization: localStorage.getItem("access") },
+      headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
     });
 
     setIdValue(data.user.email);
@@ -40,6 +39,7 @@ const Modify = () => {
     });
   };
 
+  // 데이터 전달 수정필요
   let formData = new FormData();
   const navigation = useNavigate();
 
@@ -73,7 +73,7 @@ const Modify = () => {
 
   const getImageFile = (event) => {
     const file = event.target.files;
-    setImageFile(file[0].name);
+    setImgSrc(file[0].name);
     setImageForm(file[0]);
   };
 
@@ -86,6 +86,8 @@ const Modify = () => {
     const value = event.target.value;
     setCompanyValue(value);
   };
+
+  //여기까지
 
   const loginChk = () => {
     const loginToken = localStorage.getItem("user");
@@ -115,10 +117,15 @@ const Modify = () => {
         </nav>
       </div>
       <div className={styles.box}>
+        <div className={styles.nav}>
+          <a href="/modify">1. 회원정보 수정</a>
+          <a href="/modify_post">2. 내가 작성한 글</a>
+          <a href="/modify_feedback">3. 받은 피드백</a>
+        </div>
         <div className={styles.input__container}>
           <h1>이직할까?</h1>
           <div className={styles.upload__img__container}>
-            <img src={imgFile} />
+            <img src={imgSrc} />
             <input type="file" accept="image/*" onChange={getImageFile} />
           </div>
           <div className={styles.form__container}>
@@ -131,7 +138,7 @@ const Modify = () => {
               </button>
               <label htmlFor="nickname">Nickname</label>
               <input
-                placeholder="Nickname"
+                placeholder={nickNameValue}
                 type="text"
                 id="nickname"
                 required
@@ -139,7 +146,7 @@ const Modify = () => {
               />
               <label htmlFor="company">희망하는 기업</label>
               <input
-                placeholder="Nickname으로 사용됩니다"
+                placeholder={companyValue}
                 type="text"
                 id="company"
                 required

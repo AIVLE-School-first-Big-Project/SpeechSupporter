@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./Board.module.css";
 import axios from "axios";
-import { publishRefreshToken } from "./Utiles/axios";
+import { publishRefreshToken } from "../Utiles/axios";
 
 const data = [
   {

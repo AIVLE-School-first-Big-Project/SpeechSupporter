@@ -1,16 +1,29 @@
-import styles from "./Modify_post.module.css";
+import styles from "./Modify_feedback.module.css";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { publishRefreshToken } from "./Utiles/axios";
+import { publishRefreshToken } from "../Utiles/axios";
 
 const BASE_URL = "http://localhost:8000/api/";
 
-const Modify_post = () => {
+const Modify_feedback = () => {
   const [idValue, setIdValue] = useState("abcd@dcba.com");
   const [imgSrc, setImgSrc] = useState(null);
   const [nickNameValue, setNickNameValue] = useState("");
   const [companyValue, setCompanyValue] = useState("");
+  const [feedbackList, setFeedbackList] = useState([]);
+
+  const getFeedbackData = async () => {
+    publishRefreshToken();
+    const { data } = await axios.get(
+      "http://localhost:8000/api/service/history/",
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      }
+    );
+    setFeedbackList(data.historyList);
+    console.log(feedbackList);
+  };
 
   const getUserData = async () => {
     publishRefreshToken();
@@ -36,6 +49,7 @@ const Modify_post = () => {
 
   useEffect(() => {
     getUserData();
+    getFeedbackData();
   }, []);
 
   return (
@@ -54,12 +68,31 @@ const Modify_post = () => {
         </nav>
       </div>
       <div className={styles.box}>
-        <div className={styles.post_container}>
-          <div className={styles.post_title}>작성한 글 목록</div>
+        <div className={styles.nav}>
+          <a href="/modify">1. 회원정보 수정</a>
+          <a href="/modify_post">2. 내가 작성한 글</a>
+          <a href="/modify_feedback">3. 받은 피드백</a>
+        </div>
+        <div className={styles.feedback_container}>
+          <div className={styles.feedback_title}>받은 피드백 목록</div>
+          <div className={styles.feedback_list}>
+            {feedbackList.map((data) => {
+              return (
+                <div className={styles.feedback_num}>
+                  <div className={styles.feedback_id}>{data.id}</div>
+                  <div className={styles.feedback_pose}>{data.pose}</div>
+                  <div className={styles.feedback_voice}>{data.voice}</div>
+                  <div className={styles.feedback_dt}>
+                    {data.create_dt.slice(2, 10)}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Modify_post;
+export default Modify_feedback;

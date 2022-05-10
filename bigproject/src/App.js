@@ -9,15 +9,16 @@ import ResetPassword from "./Screens/ResetPassword";
 import SendEmail from "./Screens/SendEmail";
 import Community from "./Screens/Community";
 import Board from "./Screens/Board";
-import Modify from "./Screens/Modify";
+
 import ModifyPost from "./Screens/ModifyPost";
 import Write from "./Screens/Write";
 import Modify_pwd from "./Screens/Modify_pwd";
 import Questions from "./Screens/Questions";
 import CreateList from "./Components/CreateList";
 import Coaching from "./Screens/Coaching";
-import Modify from "./Modify";
-import Write from "./Write";
+import Modify from "./Screens/Modify";
+import Modify_feedback from "./Screens/Modify_feedback";
+import Modify_post from "./Screens/Modify_post";
 
 function App() {
   return (
@@ -49,6 +50,22 @@ function App() {
           element={
             <PrivateRoute>
               <Community />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/modify_feedback"
+          element={
+            <PrivateRoute>
+              <Modify_feedback />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/modify_post"
+          element={
+            <PrivateRoute>
+              <Modify_post />
             </PrivateRoute>
           }
         />

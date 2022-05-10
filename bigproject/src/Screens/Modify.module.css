@@ -1,4 +1,4 @@
-@import "./reset.css";
+@import "../reset.css";
 @font-face {
   font-family: "GmarketSansMedium";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
@@ -22,6 +22,7 @@ body {
 
 .topbar__container {
   width: 65vw;
+  height: 15vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,7 +35,7 @@ body {
 }
 
 .logo {
-  width: 100px;
+  width: 150px;
 }
 
 .navigator {
@@ -65,7 +66,45 @@ body {
 
 .box {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 65vw;
+  height: 85vh;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 500px;
+  background-color: rgb(234, 237, 244);
+  border-radius: 30px;
+}
+
+.nav a {
+  text-decoration: none;
+  font-family: GmarketSansMedium;
+  font-size: 25px;
+  margin-left: 20px;
+  margin-top: 40px;
+}
+
+.nav a:visited {
+  text-decoration: none;
+  font-family: GmarketSansMedium;
+  font-size: 25px;
+  margin-left: 20px;
+  margin-top: 40px;
+  color: black;
+}
+
+.nav a:hover {
+  text-decoration: none;
+  font-family: GmarketSansMedium;
+  font-size: 25px;
+  margin-left: 20px;
+  margin-top: 40px;
+  color: #4876ef;
 }
 
 .input__container {

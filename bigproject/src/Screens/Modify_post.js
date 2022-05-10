@@ -1,16 +1,29 @@
-import styles from "./Modify_feedback.module.css";
+import styles from "./Modify_post.module.css";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { publishRefreshToken } from "./Utiles/axios";
+import { publishRefreshToken } from "../Utiles/axios";
 
 const BASE_URL = "http://localhost:8000/api/";
 
-const Modify_feedback = () => {
+const Modify_post = () => {
   const [idValue, setIdValue] = useState("abcd@dcba.com");
   const [imgSrc, setImgSrc] = useState(null);
   const [nickNameValue, setNickNameValue] = useState("");
   const [companyValue, setCompanyValue] = useState("");
+  const [postList, setPostList] = useState([]);
+
+  const getPostData = async () => {
+    publishRefreshToken();
+    const { data } = await axios.get(
+      "http://localhost:8000/api/post/mypostlist/",
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      }
+    );
+    setPostList(data);
+    console.log(postList);
+  };
 
   const getUserData = async () => {
     publishRefreshToken();
@@ -36,6 +49,7 @@ const Modify_feedback = () => {
 
   useEffect(() => {
     getUserData();
+    getPostData();
   }, []);
 
   return (
@@ -54,12 +68,36 @@ const Modify_feedback = () => {
         </nav>
       </div>
       <div className={styles.box}>
-        <div className={styles.feedback_container}>
-          <div className={styles.feedback_title}>작성한 글 목록</div>
+        <div className={styles.nav}>
+          <a href="/modify">1. 회원정보 수정</a>
+          <a href="/modify_post">2. 내가 작성한 글</a>
+          <a href="/modify_feedback">3. 받은 피드백</a>
+        </div>
+        <div className={styles.post_container}>
+          <div className={styles.post_top}>작성한 글 목록</div>
+          <div className={styles.post_list}>
+            {postList.map((data) => {
+              return (
+                <div className={styles.post_num}>
+                  <div className={styles.post_id}>{data.id}</div>
+                  <div className={styles.post_title}>
+                    <a href={`http://localhost:3000/board/${data.id}`}>
+                      {data.title}
+                    </a>
+                  </div>
+                  <div className={styles.post_dt}>
+                    {data.create_dt.slice(2, 10)}
+                  </div>
+                  <div className={styles.post_like}>{data.like}</div>
+                  <div className={styles.post_view}>{data.view_count}</div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Modify_feedback;
+export default Modify_post;

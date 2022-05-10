@@ -71,7 +71,7 @@ const MainPage = () => {
     if (x <= window.screen.width * 0.3) {
       nav("/aivle/video");
     } else if (x >= window.screen.width * 0.3 + 200) {
-      nav("/community");
+      nav("/community/:1");
     }
   };
 
