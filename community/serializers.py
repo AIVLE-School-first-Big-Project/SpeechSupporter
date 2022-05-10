@@ -34,8 +34,9 @@ class CommentSerializerSub(serializers.ModelSerializer):
         # fields = '__all__'
 
 class PostRetrieveSerializer(serializers.ModelSerializer):
-    email = serializers.ReadOnlyField(source = 'user.email')
-    user = serializers.ReadOnlyField(source = 'user.nick_name')
+    # email = serializers.ReadOnlyField(source = 'user.email')
+    # user = serializers.ReadOnlyField(source = 'user.nick_name')
+    user = UserSerializer(read_only =True)
     category = serializers.StringRelatedField()
     tags = serializers.StringRelatedField(many=True)
 
