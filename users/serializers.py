@@ -1,17 +1,14 @@
-import email
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
 from django.contrib.auth.models import update_last_login
 from django.contrib.auth import authenticate
 from rest_framework_jwt.settings import api_settings
-from django.contrib.auth.tokens import PasswordResetTokenGenerator 
-from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+# from django.contrib.auth.tokens import PasswordResetTokenGenerator 
+# from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError
+# from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from users.models import User
-from rest_framework.exceptions import AuthenticationFailed
 
 #모델 호출
-User = get_user_model()
+# User = get_user_model()
 class UserRegisterSerializer(serializers.ModelSerializer):
     #profile_img = serializers.ImageField(use_url=True, required = False)
 
@@ -70,6 +67,7 @@ class UserLoginSerializer(serializers.Serializer):
 
 class UserSerializer(serializers.ModelSerializer):
     profile_img = serializers.ImageField(use_url=True, required = False)
+    
     class Meta:
         model = User
         fields = ['email', 'nick_name', 'wannabe', 'profile_img']
@@ -132,6 +130,7 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
 
 class ResetPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField(max_length=255)
+    
     class Meta:
         fields = ['email']
 
@@ -144,15 +143,11 @@ class SetPasswordSerializer(serializers.Serializer):
         fields = ['password', "email"]
     
     def validate(self, attrs):
-        
-            password = attrs.get('password')
-           
-
-            user = User.objects.get(email = attrs.get("email"))
-
-            user.set_password(password) # 비밀번호 저장
-            user.save()
+        password = attrs.get('password')
+        user = User.objects.get(email = attrs.get("email"))
+        user.set_password(password) # 비밀번호 저장
+        user.save()
             
-            return user
+        return user
 
     

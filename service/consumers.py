@@ -1,10 +1,9 @@
-from email.errors import MessageError
+
 import json
 # import pyaudio
-import json
 from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
 from asgiref.sync import async_to_sync
-import joblib
+
 import tensorflow
 import numpy as np
 import pandas as pd
@@ -108,13 +107,13 @@ class VideoConsumer(AsyncWebsocketConsumer):
     result_face_list_surprise = []
     
     # Receive message from room group
-    async def video_message(self):
+    async def video_message(self, event):
         # print(1)
         pose_message = event['pose_message']
         face_message = event['face_message']
         
         if len(pose_message) == 0 :
-            return NULL
+            return None
         
         # # 받은 데이터 확인
         # print(pose_message["keypoints"][0])

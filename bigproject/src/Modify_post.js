@@ -11,8 +11,19 @@ const Modify_post = () => {
   const [imgSrc, setImgSrc] = useState(null);
   const [nickNameValue, setNickNameValue] = useState("");
   const [companyValue, setCompanyValue] = useState("");
+  const [postList, setPostList] = useState([]);
 
-  let postlist = ["꺼져", "꺼지라고"];
+  const getPostData = async () => {
+    publishRefreshToken();
+    const { data } = await axios.get(
+      "http://localhost:8000/api/post/mypostlist/",
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      }
+    );
+    setPostList(data);
+    console.log(postList);
+  };
 
   const getUserData = async () => {
     publishRefreshToken();
@@ -38,6 +49,7 @@ const Modify_post = () => {
 
   useEffect(() => {
     getUserData();
+    getPostData();
   }, []);
 
   return (
@@ -62,10 +74,20 @@ const Modify_post = () => {
           <a href="/modify_feedback">3. 받은 피드백</a>
         </div>
         <div className={styles.post_container}>
-          <div className={styles.post_title}>작성한 글 목록</div>
-          <div className={styles.post_num}>
-            {postlist.map((data) => {
-              return <h3>{data}</h3>;
+          <div className={styles.post_top}>작성한 글 목록</div>
+          <div className={styles.post_list}>
+            {postList.map((data) => {
+              return (
+                <div className={styles.post_num}>
+                  <div className={styles.post_id}>{data.id}</div>
+                  <div className={styles.post_title}>{data.title}</div>
+                  <div className={styles.post_dt}>
+                    {data.create_dt.slice(2, 10)}
+                  </div>
+                  <div className={styles.post_like}>{data.like}</div>
+                  <div className={styles.post_view}>{data.view_count}</div>
+                </div>
+              );
             })}
           </div>
         </div>

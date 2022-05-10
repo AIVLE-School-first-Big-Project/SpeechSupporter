@@ -11,6 +11,18 @@ const Modify_feedback = () => {
   const [imgSrc, setImgSrc] = useState(null);
   const [nickNameValue, setNickNameValue] = useState("");
   const [companyValue, setCompanyValue] = useState("");
+  const [feedbackList, setFeedbackList] = useState([]);
+
+  const getFeedbackData = async () => {
+    publishRefreshToken();
+    const { data } = await axios.get(
+      "http://localhost:8000/api/service/history/",
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      }
+    );
+    console.log(data);
+  };
 
   const getUserData = async () => {
     publishRefreshToken();
@@ -36,6 +48,7 @@ const Modify_feedback = () => {
 
   useEffect(() => {
     getUserData();
+    getFeedbackData();
   }, []);
 
   return (

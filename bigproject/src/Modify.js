@@ -21,7 +21,7 @@ const Modify = () => {
     publishRefreshToken();
 
     const { data } = await axios.get(BASE_URL + "users/user/", {
-      headers: { Authorization: localStorage.getItem("access") },
+      headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
     });
 
     setIdValue(data.user.email);

@@ -1,32 +1,30 @@
 from collections import OrderedDict
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 
 from community.filters import PostFilter
-from .serializers import *
-from .models import *
-from users.models import *
+from .serializers import PostCreateSerializer, CommentSerializer, PostDetailSerializer, PostListSerializer, PostModifySerializer, CateTagSerializer
+from .models import Post, Comment, Category, Tag
+# from users.models import User
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 
-from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
-from rest_framework.decorators import permission_classes, authentication_classes, api_view
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
 
 from rest_framework.generics import ListAPIView, GenericAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework import status
 
 import joblib
-from .Data_preprocessing import *
-from sklearn.feature_extraction.text import TfidfVectorizer
+from .Data_preprocessing import data_split
+# from sklearn.feature_extraction.text import TfidfVectorizer
 
 @csrf_exempt
 def post_create(request): # 글쓰기 - 내용, 제목
     # if request.method == "GET":
-        # return HttpResponse("Login Plz")
+    # return HttpResponse("Login Plz")
     if request.method == "POST":
         data = JSONParser().parse(request)
         print(data)
@@ -63,11 +61,13 @@ class PostCreateAPIView(CreateAPIView):
     def get_queryset(self):
         return super().get_queryset().prefetch_related('tags', 'category')
     serializer_class = PostCreateSerializer
+    
     def create(self, request, *args, **kwargs):
         text = request.data['title'] + request.data['content']
         text = apply_preprocessing(text) # 
         y_pred = model.predict(text)
-        if y_pred == 1: return Response(status=status.HTTP_201_CREATED, data = {'message':"Save Failed", 'state' : False})
+        if y_pred == 1: 
+            return Response(status=status.HTTP_201_CREATED, data = {'message':"Save Failed", 'state' : False})
 
         serializer = self.get_serializer(data = request.data)
         if serializer.is_valid(raise_exception=True):
@@ -83,8 +83,7 @@ def apply_preprocessing(sentence):
     '''
     영어, 숫자, 한글(온전한 문자)을 제외한 나머지 제거
     '''
-    result = ''.join(re.compile('[ㄱ-ㅎㅏ-ㅣ가-힣0-9a-zA-Z ]').\
-             findall(sentence)).strip()
+    result = ''.join(re.compile('[ㄱ-ㅎㅏ-ㅣ가-힣0-9a-zA-Z ]').findall(sentence)).strip()
 
     result = data_split(result)
     
@@ -115,6 +114,7 @@ def apply_preprocessing(sentence):
 class CommentCreateAPIView(CreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
@@ -167,8 +167,9 @@ class PostRetreiveAPIView(RetrieveAPIView):
 @permission_classes([IsAuthenticated])
 class PostLikeAPIView(GenericAPIView):
     queryset = Post.objects.all()
-    #GET으로 처리함으로써 serializer는 삭제해도 됨.
+    # GET으로 처리함으로써 serializer는 삭제해도 됨.
     # serializer_class = PostLikeSerializer
+    
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.like += 1
@@ -220,6 +221,7 @@ class PostListAPIView(ListAPIView):
 
     filter_class = PostFilter
 
+# @permission_classes([IsAuthenticated])
 class MyPostListAPIView(ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostListSerializer
@@ -228,8 +230,8 @@ class MyPostListAPIView(ListAPIView):
         queryset = self.filter_queryset(self.get_queryset())
         print(request.user)
         try:
-            obj = queryset.filter(user_id=self.request.user.id)
-        except:
+            obj = queryset.filter(user=self.request.user)
+        except BaseException: 
             return Response(status=status.HTTP_409_CONFLICT, data={'message': '데이터가 존재하지 않습니다.'})
 
         serializer = self.get_serializer(obj, many = True)
@@ -241,6 +243,7 @@ class MyPostListAPIView(ListAPIView):
 @permission_classes([IsAuthenticated])
 class PostModifyAPIView(UpdateAPIView): # 게시글 수정, 삭제하는 페이지
     serializer_class = PostModifySerializer
+    
     def post(self, request): # 게시글 수정할 수 있는 페이지 - id 넘겨 주세요
         posting = Post.objects.get(id = request.data['id'])
         data = {
