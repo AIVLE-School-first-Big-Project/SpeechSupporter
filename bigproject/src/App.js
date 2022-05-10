@@ -11,6 +11,8 @@ import Community from "./Community";
 import Board from "./Board";
 import Modify from "./Modify";
 import Write from "./Write";
+import Modify_feedback from "./Modify_feedback";
+import Modify_post from "./Modify_post";
 
 function App() {
   return (
@@ -32,7 +34,30 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/community" element={<Community />} />
         <Route path="/write" element={<Write />} />
-        <Route path="/modify" element={<Modify />} />
+        <Route
+          path="/modify"
+          element={
+            <PrivateRoute>
+              <Modify />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/modify_feedback"
+          element={
+            <PrivateRoute>
+              <Modify_feedback />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/modify_post"
+          element={
+            <PrivateRoute>
+              <Modify_post />
+            </PrivateRoute>
+          }
+        />
         <Route path="/board/:id" element={<Board />} />
       </Routes>
     </Router>
