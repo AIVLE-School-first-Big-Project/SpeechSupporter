@@ -22,6 +22,7 @@ body {
 
 .topbar__container {
   width: 65vw;
+  height: 15vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,7 +35,7 @@ body {
 }
 
 .logo {
-  width: 100px;
+  width: 150px;
 }
 
 .navigator {
@@ -65,24 +66,72 @@ body {
 
 .feedback_container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  width: 1000px;
-  height: 800px;
-  background-color: rgb(215, 217, 221);
+  width: 800px;
+  height: 600px;
+  background-color: rgb(234, 237, 244);
   border-radius: 30px;
 }
 
 .feedback_title {
   display: flex;
-  justify-content: center;
+  height: 100px;
+  margin-left: 30px;
   align-items: center;
   font-family: GmarketSansMedium;
+  color: #4876ef;
   font-size: 30px;
+}
+
+.feedback_num {
+  display: flex;
+  height: 70px;
+  margin-left: 30px;
+  align-items: center;
+  font-family: GmarketSansMedium;
+  color: #4876ef;
+  font-size: 25px;
 }
 
 .box {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 65vw;
+  height: 85vh;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 500px;
+  background-color: rgb(234, 237, 244);
+  border-radius: 30px;
+}
+
+.nav a {
+  text-decoration: none;
+  font-family: GmarketSansMedium;
+  font-size: 25px;
+  margin-left: 20px;
+  margin-top: 40px;
+}
+
+.nav a:visited {
+  text-decoration: none;
+  font-family: GmarketSansMedium;
+  font-size: 25px;
+  margin-left: 20px;
+  margin-top: 40px;
+  color: black;
+}
+
+.nav a:hover {
+  text-decoration: none;
+  font-family: GmarketSansMedium;
+  font-size: 25px;
+  margin-left: 20px;
+  margin-top: 40px;
+  color: #4876ef;
 }

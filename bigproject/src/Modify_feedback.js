@@ -54,8 +54,14 @@ const Modify_feedback = () => {
         </nav>
       </div>
       <div className={styles.box}>
+        <div className={styles.nav}>
+          <a href="/modify">1. 회원정보 수정</a>
+          <a href="/modify_post">2. 내가 작성한 글</a>
+          <a href="/modify_feedback">3. 받은 피드백</a>
+        </div>
         <div className={styles.feedback_container}>
-          <div className={styles.feedback_title}>작성한 글 목록</div>
+          <div className={styles.feedback_title}>받은 피드백 목록</div>
+          <div className={styles.feedback_num}></div>
         </div>
       </div>
     </div>

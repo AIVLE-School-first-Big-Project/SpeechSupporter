@@ -12,6 +12,8 @@ const Modify_post = () => {
   const [nickNameValue, setNickNameValue] = useState("");
   const [companyValue, setCompanyValue] = useState("");
 
+  let postlist = ["꺼져", "꺼지라고"];
+
   const getUserData = async () => {
     publishRefreshToken();
 
@@ -54,8 +56,18 @@ const Modify_post = () => {
         </nav>
       </div>
       <div className={styles.box}>
+        <div className={styles.nav}>
+          <a href="/modify">1. 회원정보 수정</a>
+          <a href="/modify_post">2. 내가 작성한 글</a>
+          <a href="/modify_feedback">3. 받은 피드백</a>
+        </div>
         <div className={styles.post_container}>
           <div className={styles.post_title}>작성한 글 목록</div>
+          <div className={styles.post_num}>
+            {postlist.map((data) => {
+              return <h3>{data}</h3>;
+            })}
+          </div>
         </div>
       </div>
     </div>
