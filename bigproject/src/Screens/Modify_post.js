@@ -80,11 +80,7 @@ const Modify_post = () => {
               return (
                 <div className={styles.post_num}>
                   <div className={styles.post_id}>{data.id}</div>
-                  <div className={styles.post_title}>
-                    <a href={`http://localhost:3000/board/${data.id}`}>
-                      {data.title}
-                    </a>
-                  </div>
+                  <div className={styles.post_title}>{data.title}</div>
                   <div className={styles.post_dt}>
                     {data.create_dt.slice(2, 10)}
                   </div>

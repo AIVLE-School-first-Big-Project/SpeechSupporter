@@ -1,10 +1,7 @@
 from django.http import JsonResponse
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework import serializers
-from django.contrib.auth import get_user_model,authenticate
-
-from rest_framework_simplejwt.settings import api_settings
+from django.contrib.auth import get_user_model
+# from rest_framework_simplejwt.settings import api_settings
 
 from .serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView

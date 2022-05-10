@@ -5,8 +5,8 @@ from rest_framework.generics import GenericAPIView, UpdateAPIView, RetrieveUpdat
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 #drf permission
-from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
-from rest_framework.decorators import permission_classes, authentication_classes, api_view
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.decorators import permission_classes
 
 from rest_framework_jwt.settings import api_settings
 
@@ -14,14 +14,12 @@ from rest_framework import status
 
 from users.models import User
 
-from users.serializers import *
-import jwt, datetime
+from users.serializers import UserRegisterSerializer, UserLoginSerializer, UserProfileSerializer, UserSerializer, ResetPasswordSerializer, ChangePasswordSerializer, SetPasswordSerializer
+import jwt
 
 from django.contrib.auth.tokens import PasswordResetTokenGenerator 
-from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from django.contrib.sites.shortcuts import get_current_site
-from django.urls import reverse
+from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_decode
 from users.utils import Util
 
 from rest_framework.decorators import parser_classes
@@ -51,7 +49,7 @@ class RegisterView(GenericAPIView):
         if seriallizer.is_valid(raise_exception=True):
             get_user_model().objects.create_user(**seriallizer.validated_data)
             return Response(status= status.HTTP_201_CREATED, data={'message': "user info has been created",
-                                                                    "state" : True    })    
+                                                                    "state" : True})    
         return Response(status= status.HTTP_400_BAD_REQUEST, data={'errors': seriallizer.errors})
 
         # 아래는 serializer를 통해 구현한 사용자 생성 로직
@@ -66,16 +64,17 @@ class LoginView(GenericAPIView):
     로그인을 수행합니다.
     """
     serializer_class = UserLoginSerializer
+    
     def post(self, request, *args, **kwargs): 
         serializer = self.get_serializer(data=request.data)
         if not serializer.is_valid():
-            return Response( data = {'message' : serializer.errors})
+            return Response(data = {'message' : serializer.errors})
         
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
         
-        #if user['email'] == "None":
-         #   return Response( data={'message':"fail(email)", "id" : 20})
+        # if user['email'] == "None":
+        # return Response( data={'message':"fail(email)", "id" : 20})
         
         #Customizing Response 
         response = Response()
@@ -167,6 +166,7 @@ class UpdatePartialUserView(RetrieveUpdateAPIView):
     """
     queryset = User.objects.all()
     serializer_class = UserProfileSerializer
+    
     def get_object(self):
         queryset = self.filter_queryset(self.get_queryset())
 
@@ -201,6 +201,7 @@ class UpdatePartialUserView(RetrieveUpdateAPIView):
 @permission_classes([IsAuthenticated])
 class ChangePasswordView(UpdateAPIView):
     serializer_class = ChangePasswordSerializer
+    
     def get_object(self, queryset=None):
         obj = self.request.user
         return obj
@@ -220,6 +221,7 @@ class ChangePasswordView(UpdateAPIView):
 @permission_classes([IsAuthenticated]) 
 class Test(GenericAPIView):
     serializer_class = UserLoginSerializer
+    
     def get(self, request, *args, **kwargs):
         return Response({'message':'good'}, status=status.HTTP_200_OK)
 
@@ -236,12 +238,12 @@ class ResetPasswordView(GenericAPIView): # 패스워드 초기화 1  - 이메일
         if User.objects.filter(email=email).exists():
 
             user = User.objects.get(email = email)
-            uidb64 = urlsafe_base64_encode(smart_bytes(user.id)) # 안전한 url 생성
+            # uidb64 = urlsafe_base64_encode(smart_bytes(user.id)) # 안전한 url 생성
             token = PasswordResetTokenGenerator().make_token(user) # 토큰 생성
-            current_site = get_current_site(request = request).domain 
-            relativeLink = reverse(
-                'users:reset_confirm', kwargs={'uidb64' : uidb64, 'token' : token })
-            absurl = token # 비밀 번호 변경 토큰 URL 링크 생성
+            # current_site = get_current_site(request = request).domain
+            # relativeLink = reverse(
+            #     'users:reset_confirm', kwargs={'uidb64' : uidb64, 'token' : token })
+            # absurl = token # 비밀 번호 변경 토큰 URL 링크 생성
             email_body = 'Hi, ' + user.nick_name + '\n ' + token
             
             data = {'email_body' : email_body, 'to_email' : user.email, # 전송 이메일 내용

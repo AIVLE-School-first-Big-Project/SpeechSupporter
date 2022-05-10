@@ -1,6 +1,5 @@
-from django.contrib import admin
-from django.urls import path, include
-from community.views import *
+from django.urls import path
+from community.views import PostCreateAPIView, PostListAPIView, PostRetreiveAPIView, MyPostListAPIView, PostLikeAPIView, CommentCreateAPIView, CateTagAPIView, PostModifyAPIView
 app_name = 'post'
 urlpatterns = [
     path('post/', PostCreateAPIView.as_view()), 

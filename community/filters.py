@@ -1,5 +1,4 @@
-from dataclasses import field
-from random import choices
+
 from django_filters import (
     FilterSet,
     CharFilter,
@@ -28,6 +27,7 @@ class PostFilter(FilterSet):
             'like'
         )
     )
+    
     class Meta:
         model = Post
         fields = ['user', 'title', 'category', 'content', 'like']
