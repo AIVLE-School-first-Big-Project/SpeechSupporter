@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import styles from "./Community.module.css";
 import axios from "axios";
@@ -18,6 +18,8 @@ const Community = () => {
   const [pageCnt, setPageCnt] = useState();
   const [defaultPage, setDefaultPage] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [searchOption, setSearchOption] = useState("title");
+  const [isSearch, setIsSearch] = useState();
 
   const nav = useNavigate();
 
@@ -103,13 +105,36 @@ const Community = () => {
 
   const getSearchData = async () => {
     publishRefreshToken();
-    const { data } = await axios.get(
-      `http://localhost:8000/api/post/postlist/?title=${searchValue}`
-    );
-    setPostList(data.postList);
-    setCurPage(data.curPage);
-    setPageCnt(data.pageCnt);
-    settingPage();
+    if (searchOption == "title") {
+      const { data } = await axios.get(
+        `http://localhost:8000/api/post/postlist/?title=${searchValue}`
+      );
+      console.log(data);
+      setPostList(data.postList);
+      setCurPage(data.curPage);
+      setPageCnt(data.pageCnt);
+      settingPage();
+      console.log(searchOption);
+    } else if (searchOption == "content") {
+      const { data } = await axios.get(
+        `http://localhost:8000/api/post/postlist/?content=${searchValue}`
+      );
+      setPostList(data.postList);
+      setCurPage(data.curPage);
+      setPageCnt(data.pageCnt);
+      settingPage();
+      console.log(searchOption);
+    } else {
+      const { data } = await axios.get(
+        `http://localhost:8000/api/post/postlist/?category=${searchValue}`
+      );
+      setPostList(data.postList);
+      setCurPage(data.curPage);
+      setPageCnt(data.pageCnt);
+      settingPage();
+      console.log(searchOption);
+    }
+    setIsSearch(false);
   };
 
   const handleSearch = (e) => {
@@ -119,6 +144,7 @@ const Community = () => {
 
   const handleOnClick = (e) => {
     e.preventDefault();
+    setIsSearch(true);
     getSearchData();
   };
 
@@ -141,8 +167,10 @@ const Community = () => {
   };
 
   useEffect(() => {
-    getUserData();
-    getPostData(orderd);
+    if (!isSearch) {
+      getUserData();
+      getPostData(orderd);
+    }
   }, [pageCnt]);
 
   return (
@@ -168,6 +196,36 @@ const Community = () => {
           <a href="">자유게시판</a>
           <a href="">다른게시판</a>
           <a href="http://localhost:3000/main">메인으로</a>
+        </div>
+        <div>
+          <input
+            type="radio"
+            name="search_option"
+            id="search_title"
+            onClick={() => {
+              setSearchOption("title");
+            }}
+            defaultChecked
+          />
+          <label htmlFor="search_title">제목</label>
+          <input
+            type="radio"
+            name="search_option"
+            id="search_content"
+            onClick={() => {
+              setSearchOption("content");
+            }}
+          />
+          <label htmlFor="search_content">내용</label>
+          <input
+            type="radio"
+            name="search_option"
+            id="search_category"
+            onClick={() => {
+              setSearchOption("category");
+            }}
+          />
+          <label htmlFor="search_category">게시판</label>
         </div>
         <div className={styles.search}>
           <input type="text" placeholder="검색" onChange={handleSearch} />
@@ -244,6 +302,7 @@ const Community = () => {
               onClick={() => {
                 ordered = "time";
               }}
+              defaultChecked
             />
             <label htmlFor="sort_date">최신순</label>
             <input
