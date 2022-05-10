@@ -1,15 +1,9 @@
-@font-face {
-  font-family: "GmarketSansMedium";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
 body {
   position: relative;
   -webkit-text-size-adjust: none;
   font-weight: 400;
-  font-family: "GmarketSansMedium";
+  font-family: Apple SD Gothic Neo, 맑은 고딕, Malgun Gothic, 돋움, dotum,
+    sans-serif;
   background-color: var(--skinColor);
   color: var(--skinTextColor);
 }
@@ -29,14 +23,15 @@ body {
 
 .container .logo {
   position: absolute;
-  width: 150px;
   left: 50%;
   transform: translate(-50%);
+  width: 120px;
 }
 
 .navbar {
   display: inline-block;
   width: 100%;
+  padding-left: 29px;
 }
 .navbar div {
   float: right;
@@ -85,8 +80,6 @@ body {
 .ArticleTitle {
   margin-bottom: 12px;
   font-size: 13px;
-  font-weight: bold;
-  font-style: normal;
 }
 
 .link_board {
@@ -101,8 +94,6 @@ body {
   word-wrap: break-word;
   word-break: break-word;
   margin: 3px;
-  font-weight: bold;
-  font-family: "GmarketSansMedium";
 }
 
 .thumb {
@@ -144,8 +135,6 @@ body {
 
 .article_viewer {
   height: 200px;
-  font-family: "GmarketSansMedium";
-  font-size: 18px;
 }
 
 .article_viewer p {
@@ -255,8 +244,7 @@ body {
 .comment_inbox_text {
   overflow: hidden;
   overflow-wrap: break-word;
-  width: 1000px;
-  height: 100px;
+  height: 18px;
 }
 
 .comment_attach a {
@@ -279,7 +267,7 @@ body {
 }
 
 .ArticleBottomBtns {
-  width: 70vw;
+  width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -294,7 +282,7 @@ body {
 }
 .navbar_2 ul {
   display: flex;
-  /* justify-content: space-between; */
+  justify-content: space-between;
   list-style: none;
 }
 .navbar_2 ul li {

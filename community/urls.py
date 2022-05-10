@@ -11,5 +11,5 @@ urlpatterns = [
     path('<int:pk>/comment/', CommentCreateAPIView.as_view()), 
     path('<int:pk>/like/', PostLikeAPIView.as_view()), 
     path('catetag/', CateTagAPIView.as_view()), 
-    path('modify/', PostModifyAPIView.as_view()), 
+    path('modify/', PostModifyAPIView.as_view()),
 ]
