@@ -1,4 +1,4 @@
-import { Navigate, Route, useNavigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 const PrivateRoute = ({ children, ...rest }) => {
     if (!localStorage.getItem('user')) {

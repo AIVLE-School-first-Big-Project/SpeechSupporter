@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import Speech from 'speak-tts';
 import useSpeechToText from 'react-hook-speech-to-text';
 import styles from './Speeching.module.css';
@@ -6,42 +6,23 @@ const { compare } = require('string-compare');
 
 const Speeching = (props) => {
     const { interview, data } = props;
-    const [isSpeech, setIsSpeech] = useState(true);
+    const [isSpeech, setIsSpeech] = useState(null);
     const [question, setQusetion] = useState(interview);
     const [timer, setTimer] = useState(interview['timer']);
     const [loading, setLoading] = useState(true);
     const speech = new Speech();
     const h1 = useRef(null);
 
-    speech
-        .init({
-            volume: 1,
-            lang: 'ko-KR',
-            rate: 0.3,
-            pitch: 0.1,
-            //voice: 'Google KR Korean Female',
-            splitSentences: true,
-            listeners: {
-                onvoiceschanged: (voices) => {},
-            },
-        })
-        .then((data) => {
-            setTimeout(() => {
-                setIsSpeech(false);
-            }, 3000);
-        })
-        .catch((e) => {
-            console.error('An error occured while initializing : ', e);
-        });
-
     const handleSpeech = () => {
         setIsSpeech(true);
         try {
             speech.speak({
-                text: question.question,
+                text: question,
             });
         } catch (e) {
             console.error('An error occurred :', e);
+        } finally {
+            setIsSpeech(false);
         }
     };
 
@@ -66,21 +47,25 @@ const Speeching = (props) => {
         if (timer <= 0 && !loading) {
             stopSpeechToText();
             const percent = compare(interview.answer, results[0].transcript);
-            data((items) => {
-                return [...items, percent];
-            });
+            if (results[0].transcript) {
+                data((items) => {
+                    return [...items, [percent * 100]];
+                });
+            } else {
+                data([null]);
+            }
+
             clearInterval(h1.current);
         }
     }, [timer]);
 
     useEffect(() => {
-        setTimer(question.timer);
         if (!loading) {
             setTimeout(() => {
                 handleSpeech();
             }, 3000);
         }
-    }, [question]);
+    }, [question, loading]);
 
     useEffect(() => {
         if (!isSpeech && !loading) {
@@ -91,8 +76,28 @@ const Speeching = (props) => {
     }, [isSpeech]);
 
     useEffect(() => {
-        setQusetion(interview);
+        setQusetion(interview.question);
+        setTimer(interview.timer);
     }, [interview]);
+
+    useEffect(() => {
+        speech
+            .init({
+                volume: 1,
+                lang: 'ko-KR',
+                rate: 0.3,
+                pitch: 0.1,
+                //voice: 'Google KR Korean Female',
+                splitSentences: true,
+                listeners: {
+                    onvoiceschanged: (voices) => {},
+                },
+            })
+            .then((data) => {})
+            .catch((e) => {
+                console.error('An error occured while initializing : ', e);
+            });
+    }, []);
 
     const handleStartBtn = () => {
         setLoading(false);
