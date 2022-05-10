@@ -35,7 +35,7 @@ python -m venv (가상환경이름)
 
 ### 2. Node.js 설치
 
-노드 js주소
+https://nodejs.org/ko/
 
 ### 3. Requiremetns
 
