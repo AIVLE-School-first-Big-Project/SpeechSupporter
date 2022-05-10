@@ -58,7 +58,7 @@ const SendEmail = () => {
       };
       const data = await axios.post(BASE_URL, tokenData);
       if (data.data["send_state"]) {
-        navigation("reset_password", { state: { email: idValue } });
+        navigation("/reset_password", { state: { email: idValue } });
       }
     }
   };
