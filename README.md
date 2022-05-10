@@ -1,5 +1,7 @@
 # SpeechSupporter
 
+![4](https://user-images.githubusercontent.com/64791173/167573335-84f1c813-9402-4a7c-b312-c8ea5b81e91d.png)
+
 - [SpeechSupporter](#speechsupporter)
 
   * [**실행 방법**](#실행-방법)
