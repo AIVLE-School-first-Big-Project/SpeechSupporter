@@ -1,0 +1,31 @@
+.add_button {
+  -webkit-text-size-adjust: none;
+  overflow-wrap: break-word;
+  margin: 0;
+  appearance: none;
+  font: inherit;
+  text-rendering: optimizeLegibility;
+  font-family: NanumSquare;
+  font-style: normal;
+  line-height: 135%;
+  box-sizing: border-box;
+  user-select: none;
+  border: 0;
+  padding: 0;
+  outline: none;
+
+  width: 834px;
+  height: 43px;
+  background: #4876ef;
+
+  font-size: 17px;
+  font-weight: lighter;
+  color: rgb(255, 255, 255);
+  border-radius: 3px;
+
+  cursor: pointer;
+}
+
+.add_button:hover {
+  background: #2d4a95;
+}
