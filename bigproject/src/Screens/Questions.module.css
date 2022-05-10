@@ -16,6 +16,57 @@ body {
   display: inline;
 }
 
+.container {
+  width: 100vw;
+  height: 13vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.topbar__container {
+  width: 65vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topbar__container div {
+  display: flex;
+  justify-content: center;
+  width: 33%;
+}
+
+.logo {
+  width: 100px;
+}
+
+.navigator {
+  width: 33%;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.navigator .profile {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.navigator h5 {
+  margin-right: 10px;
+  font-family: "GmarketSansMedium";
+  font-size: 20px;
+}
+
+.navigator a img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
 .QuestionContentBox {
   -webkit-text-size-adjust: none;
   color: #25282b;
@@ -45,7 +96,7 @@ body {
   box-sizing: border-box;
   user-select: none;
   position: relative;
-  margin-top: 700px;
+  margin-top: -400px;
   margin-bottom: 49px;
   padding: 44px 54px 54px;
   width: 942px;

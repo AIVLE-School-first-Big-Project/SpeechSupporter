@@ -43,6 +43,21 @@ const Questions = (props) => {
 
   return (
     <body>
+      <div className={styles.container}>
+        <div className={styles.topbar__container}>
+          <div></div>
+          <div>
+            <img src="aivle5.png" className={styles.logo} />
+          </div>
+          <nav className={styles.navigator}>
+            <img className={styles.profile} src="aivle5.png" />
+            <h5 id="id">nickNameValue</h5>
+            <a href="http://localhost:3000/modify">
+              <img src="http://bens1.img12.kr/2021_m_category_renewal/m_icon_mypage.png" />
+            </a>
+          </nav>
+        </div>
+      </div>
       <div>
         <div className={styles.QuestionContentBox}>
           <div className={styles.QuestionListBox}>
