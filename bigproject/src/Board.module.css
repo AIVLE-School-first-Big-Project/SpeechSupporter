@@ -41,6 +41,10 @@ body {
 .navbar div {
   float: right;
 }
+
+.navbar div:first-child {
+  margin-right: 48px;
+}
 .navbar ul {
   float: left;
   margin: 0;
