@@ -11,8 +11,12 @@ body {
 }
 
 .logo_container {
-  width: 140px;
-  height: 63px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  height: 100px;
+  margin-top: 30px;
 }
 
 .logo_container img {
@@ -25,7 +29,7 @@ body {
   width: 100vw;
   height: 100vh;
   display: flex;
-  background-color: rgb(248, 250, 252);
+  background-color: #96b3fe;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -103,7 +107,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 #login__form input {
@@ -120,6 +124,12 @@ body {
 
 #login__button {
   cursor: pointer;
+}
+
+#login__button:hover {
+  cursor: pointer;
+  background-color: #96b3fe;
+  color: white;
 }
 
 .id_input,
@@ -186,6 +196,20 @@ body {
   background-color: rgba(0, 0, 0, 0.04);
   border-radius: 13px;
   margin-top: 30px;
+  text-decoration: none;
+}
+
+.regist__container:hover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 50px;
+  box-shadow: 0 0 5px 1px rgb(225, 225, 226);
+  background-color: #96b3fe;
+  color: white;
+  border-radius: 13px;
+  margin-top: 30px;
 }
 
 .link__container {
@@ -200,15 +224,40 @@ body {
   border-radius: 13px;
   margin-top: 15px;
   opacity: 100%;
+  color: rgba(0, 0, 0, 0.863);
+  text-decoration: none;
+  text-align: center;
 }
 
-.link__container a {
+.link__container:hover {
+  visibility: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 50px;
+  box-shadow: 0 0 5px 1px rgb(225, 225, 226);
+  background-color: #96b3fe;
+  border-radius: 13px;
+  margin-top: 15px;
+  opacity: 100%;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+}
+
+/* .link__container a {
+  color: rgba(0, 0, 0, 0.863);
+  text-decoration: none;
+  margin-left: 10px;
+} */
+
+.regist__container a {
   color: rgba(0, 0, 0, 0.863);
   text-decoration: none;
   margin-left: 10px;
 }
-
-.regist__container a {
+.regist__container a:visited {
   color: rgba(0, 0, 0, 0.863);
   text-decoration: none;
   margin-left: 10px;
@@ -216,7 +265,8 @@ body {
 
 .span {
   text-decoration: none;
-  margin-bottom: 20px;
+  color: rgba(0, 0, 0, 0.863);
+  /* margin-bottom: 20px; */
 }
 
 .message {

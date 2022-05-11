@@ -57,7 +57,9 @@ const Modify_post = () => {
       <div className={styles.topbar__container}>
         <div></div>
         <div>
-          <img src="aivle5.png" className={styles.logo} />
+          <a href="/aivle/main">
+            <img src="aivle5.png" className={styles.logo} />
+          </a>
         </div>
         <nav className={styles.navigator}>
           <img className={styles.profile} src={imgSrc} />
