@@ -12,6 +12,7 @@ const Board = () => {
     const [loading, setLoading] = useState(false);
     const [authorCheck, setAuthorCheck] = useState(false);
     const [comments, setComments] = useState('');
+    const [img, setImg] = useState();
 
     const nav = useNavigate();
 
@@ -19,9 +20,10 @@ const Board = () => {
         const detail = await axios.get(`http://localhost:8000/api/post/${id}/`);
         setDetail(detail);
         setLike(detail.data.post.like);
+        setImg(detail.data.post.user.profile_img);
         const author = detail.data.post.user.email;
-        authorChk(author);
         console.log(detail);
+        authorChk(author);
     };
 
     const authorChk = (author) => {
@@ -126,10 +128,7 @@ const Board = () => {
                                 <ul className={styles.WriterInfo}>
                                     <li>
                                         <a className={styles.thumb}>
-                                            <img
-                                                src='https://cdn0.iconfinder.com/data/icons/leto-ui-generic-1/64/leto-04-512.png'
-                                                alt='프로필 사진'
-                                                width={50}></img>
+                                            <img src={img} alt='프로필 사진' width={50}></img>
                                         </a>
                                     </li>
                                     <li>
@@ -212,7 +211,7 @@ const Board = () => {
                                 <div className={styles.commnet_list}></div>
                                 <div className={styles.CommentWritter}>
                                     <div className={styles.comment_inbox}>
-                                        <em className={styles.comment_inbox_name}>{detail.data.post['user'].nick_name}</em>
+                                        <em className={styles.comment_inbox_name}>{localStorage.getItem('nickname')}</em>
                                         <textarea
                                             placeholder='댓글을 남겨보세요'
                                             row='1'
