@@ -63,7 +63,7 @@ const Coaching = () => {
                 headers: { Authorization: `Bearer ${localStorage.getItem('access')}` },
             }
         );
-
+        setTimeout.caller();
         nav('/questions');
     };
 
@@ -122,7 +122,6 @@ const Coaching = () => {
     }, [result]);
 
     useEffect(() => {
-        console.log(numOfQuestions);
         setData(state.data.data[numOfQuestions]);
     }, [numOfQuestions]);
 
@@ -132,6 +131,11 @@ const Coaching = () => {
                 <a href='/aivle/main'>
                     <img src='/logo.png' />
                 </a>
+                {numOfQuestions == length - 1 ? (
+                    <button className={styles.exit__btn} onClick={handleexitbtn}>
+                        코칭 종료하기
+                    </button>
+                ) : null}
                 <div className={styles.video__container}>
                     <div className={styles.hole}></div>
                     <video
@@ -156,7 +160,6 @@ const Coaching = () => {
                         );
                     })}
                 </div>
-                <button onClick={handleexitbtn}>코칭 종료하기</button>
             </div>
         </>
     );

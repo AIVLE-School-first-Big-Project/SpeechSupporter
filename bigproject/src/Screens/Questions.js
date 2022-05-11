@@ -61,9 +61,11 @@ const Questions = (props) => {
             <div className={styles.container}>
                 <div className={styles.topbar__container}>
                     <div></div>
-                    <div>
-                        <img src='aivle5.png' className={styles.logo} />
-                    </div>
+                    <a href='/aivle/main'>
+                        <div>
+                            <img src='aivle5.png' className={styles.logo} />
+                        </div>
+                    </a>
                     <nav className={styles.navigator}>
                         <img className={styles.profile} src={imgSrc} />
                         <h5 id='id'>{nickNameValue}</h5>
