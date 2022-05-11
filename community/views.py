@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from gc import get_objects
 from django.http import JsonResponse
 
 from community.filters import PostFilter
@@ -11,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 
-from rest_framework.generics import ListAPIView, GenericAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView
+from rest_framework.generics import ListAPIView, GenericAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -51,17 +52,17 @@ def post_create(request): # 글쓰기 - 내용, 제목
 @permission_classes([IsAuthenticated])
 class PostCreateAPIView(CreateAPIView):
     queryset = Post.objects.all()
-    
+
     global model
     global vector
 
-    model = joblib.load('community/model/xgb.pkl') # 비속어 모델 소환
+    model = joblib.load('community/model/rf.pkl') # 비속어 모델 소환
     vector = joblib.load('community/model/vector.pkl') # 임베딩 모델 소환
 
     def get_queryset(self):
         return super().get_queryset().prefetch_related('tags', 'category')
     serializer_class = PostCreateSerializer
-    
+
     def create(self, request, *args, **kwargs):
         text = request.data['title'] + request.data['content']
         text = apply_preprocessing(text) # 
@@ -86,7 +87,7 @@ def apply_preprocessing(sentence):
     result = ''.join(re.compile('[ㄱ-ㅎㅏ-ㅣ가-힣0-9a-zA-Z ]').findall(sentence)).strip()
 
     result = data_split(result)
-    
+
     result = vector.transform([result])
 
     return result
@@ -114,7 +115,7 @@ def apply_preprocessing(sentence):
 class CommentCreateAPIView(CreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    
+
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
@@ -128,7 +129,7 @@ def get_prev_next(instance):
         prev = instance.get_previous_by_update_dt()
     except instance.DoesNotExist:
         prev = None
-    
+
     try:
         next_ = instance.get_next_by_update_dt()
     except instance.DoesNotExist:
@@ -169,7 +170,7 @@ class PostLikeAPIView(GenericAPIView):
     queryset = Post.objects.all()
     # GET으로 처리함으로써 serializer는 삭제해도 됨.
     # serializer_class = PostLikeSerializer
-    
+
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.like += 1
@@ -193,7 +194,7 @@ class CateTagAPIView(APIView):
     def get(self, request):
         cateList = Category.objects.all()
         tagList = Tag.objects.all()
-        
+
         data = {
             'cateList': cateList,
             'tagList': tagList,
@@ -241,32 +242,58 @@ class MyPostListAPIView(ListAPIView):
         return Response(serializer.data)
 
 @permission_classes([IsAuthenticated])
-class PostModifyAPIView(UpdateAPIView): # 게시글 수정, 삭제하는 페이지
+class PostModifyAPIView(UpdateAPIView, DestroyAPIView): # 게시글 수정, 삭제하는 페이지
     serializer_class = PostModifySerializer
-    
-    def post(self, request): # 게시글 수정할 수 있는 페이지 - id 넘겨 주세요
-        posting = Post.objects.get(id = request.data['id'])
-        data = {
-            'content' : posting.content,
-            'title' : posting.title,
-            'id' : posting.id
-        }
-        serializer = self.get_serializer(instance=data) # 아이디와 내용과 제목을 드릴게요
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    def update(self, request): # 사용자가 글 수정 화면에서 글 수정을 누를 때 - 아이디와 변경내용, 변경 제목을 주세요
-        title = request.data['title']
-        content = request.data['content']
-        user = Post.objects.get(id = request.data['id'])
+    queryset = Post.objects.all()
 
-        user.title = title
-        user.content = content
-        user.save()
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        print(request.data)
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        print(serializer.validated_data)
+        self.perform_update(serializer)
 
-        return Response({"message" : "Modify Success"}, status=status.HTTP_200_OK)
-    
-    def delete(self, request): # 사용자가 글 수정 화면에서 글 삭제을 누를 때 - 아이디만 주세여
-        user = Post.objects.get(id = request.data['id'])
-        user.delete()
+        return Response(serializer.data)
 
-        return Response({"message" : "Remove Success"}, status=status.HTTP_200_OK)
+    def destroy(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        try :
+            instance = queryset.filter(id=self.kwargs['pk'])
+        except BaseException: 
+            return Response(status=status.HTTP_409_CONFLICT, data={'message': '데이터가 존재하지 않습니다.'})
+        self.perform_destroy(instance=instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    # def delete(self, request): # 사용자가 글 수정 화면에서 글 삭제을 누를 때 - 아이디만 주세여
+
+    #     user = Post.objects.get(id = self.kwargs.get('pk'))
+    #     user.delete()
+
+    #     return Response({"message" : "Remove Success"}, status=status.HTTP_200_OK)
+
+# @api_view(['GET','PUT','DELETE'])
+# def post_detail(request, pk):
+#     if request.method == 'GET':
+#         try:
+#             post = Post.objects.get(pk=pk)
+#         except Post.DoesNotExist:
+#             return Response(data={"Error": 'Post Not found'}, status=status.HTTP_404_NOT_FOUND)
+
+#         serializer = PostModifySerializer(post)
+#         return Response(serializer.data)
+
+#     if request.method == 'PUT':
+#         post = Post.objects.get(pk=pk)
+#         print(post)
+#         serializer = PostModifySerializer(instance=post, data=request.data)
+#         if serializer.is_valid(raise_exception=True):
+#             serializer.save()
+#         else:
+#             return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
+#     if request.method == 'DELETE':
+#         post = Post.objects.get(pk=pk)
+#         post.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT, data="deleted") 
