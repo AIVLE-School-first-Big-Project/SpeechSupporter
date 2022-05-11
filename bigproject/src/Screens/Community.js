@@ -183,7 +183,7 @@ const Community = () => {
                 <div>
                     <a href=''>자유게시판</a>
                     <a href=''>다른게시판</a>
-                    <a href='http://localhost:3000/main'>메인으로</a>
+                    <a href='http://localhost:3000/aivle/main'>메인으로</a>
                 </div>
                 <div>
                     <input

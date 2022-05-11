@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import Speech from 'speak-tts';
 import useSpeechToText from 'react-hook-speech-to-text';
 import styles from './Speeching.module.css';
+import { publishRefreshToken } from '../Utiles/axios';
 const { compare } = require('string-compare');
 
 const Speeching = (props) => {
@@ -14,6 +15,7 @@ const Speeching = (props) => {
     const h1 = useRef(null);
 
     const handleSpeech = () => {
+        publishRefreshToken();
         setIsSpeech(true);
         try {
             speech.speak({
@@ -49,7 +51,7 @@ const Speeching = (props) => {
             const percent = compare(interview.answer, results[0].transcript);
             if (results[0].transcript) {
                 data((items) => {
-                    return [...items, [percent * 100]];
+                    return [...items, { answer: interview.answer, speak: results[0].transcript, acc: percent * 100 }];
                 });
             } else {
                 data([null]);

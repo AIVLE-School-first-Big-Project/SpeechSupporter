@@ -7,6 +7,8 @@ from users.serializers import UserSerializer
 
 class CoachingHistorySerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    pose = serializers.ListField()
+    voice = serializers.ListField()
     class Meta:
         model = Coaching
         fields = '__all__'
