@@ -38,7 +38,7 @@ const ModifyPost = () => {
             title,
             content,
         };
-        const modify = await axios.put('http://localhost:8000/api/post/modify/', data, {
+        const modify = await axios.put(`http://localhost:8000/api/post/modify/${id}/`, data, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('access')}`,
             },
@@ -69,7 +69,6 @@ const ModifyPost = () => {
                         <div className={styles.ArticleContentBox}>
                             <div className={styles.article_header}>
                                 <div className={styles.ArticleTitle}>
-                                    <a className={styles.link_board}>전체 글 보기</a>
                                     <input className={styles.title_text} value={title} onChange={onTitleChg} />
                                 </div>
                             </div>
